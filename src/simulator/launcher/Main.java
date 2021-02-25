@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import simulator.control.StateComparator;
 import simulator.factories.Factory;
+import simulator.misc.Vector2D;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
 
@@ -36,8 +37,19 @@ public class Main {
 
 	private static void init() {
 		// TODO initialize the bodies factory
-
+		
+		//Body b = new Body("god", 3.0 , new Vector2D(1,1), new Vector2D(2,2), new Vector2D(1,1));
+		
 		// TODO initialize the force laws factory
+		
+//		System.out.println(b.toString());
+//		b.move(2);
+//		System.out.println(b.toString());
+//		b.addForce(new Vector2D(2,2));
+//		System.out.println(b.toString());
+//		b.resetForce();
+//		System.out.println(b.toString());
+		
 
 		// TODO initialize the state comparator
 	}
