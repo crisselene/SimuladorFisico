@@ -1,5 +1,7 @@
 package simulator.model;
 
+import org.json.JSONObject;
+
 import simulator.misc.Vector2D;
 
 public class Body {
@@ -46,7 +48,7 @@ public class Body {
 		this.f = new Vector2D(0,0);
 	}
 	
-	 void move(double t) {
+	void move(double t) {
 		Vector2D a;
 		if(m!=0) {
 		a= f.scale(1/m);
@@ -60,9 +62,23 @@ public class Body {
 		this.v= v.plus(a.scale(t));
 	}
 	
-	@Override
-	public String toString() {
-		return "Body [id=" + id + ", m=" + m + ", v=" + v + ", f=" + f + ", p=" + p + "]";
+	public JSONObject getState() {
+		JSONObject jo1 = new JSONObject();
+		
+		jo1.put("id", id);
+		jo1.put("m", m);
+		jo1.put("v", v);
+		jo1.put("f", f);
+		jo1.put("p", p);
+		return jo1;
 	}
+//	@Override
+//	public String toString() {
+//		return "Body [id=" + id + ", m=" + m + ", v=" + v + ", f=" + f + ", p=" + p + "]";
+//	}
 	
+	@Override 
+	public String toString() {
+		return "Body " + getState();
+	}
 }
