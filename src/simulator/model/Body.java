@@ -11,7 +11,7 @@ public class Body {
 	protected Vector2D f;//fuerza
 	protected Vector2D p;//posicion
 	
-	public Body(String id, double m, Vector2D v, Vector2D f, Vector2D p) {
+	public Body(String id, double m, Vector2D v, Vector2D p) {
 		super();
 		this.id = id;
 		this.m = m;

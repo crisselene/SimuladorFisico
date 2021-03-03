@@ -9,8 +9,7 @@ public class MassLossingBody extends Body{
 	private double contador;
 	
 	public MassLossingBody(String id, double m, Vector2D v, Vector2D f, Vector2D p, double lossFactor, double lossFrequency) {
-		super(id, m, v, f, p);
-		// TODO Auto-generated constructor stub
+		super(id, m, v, p);
 		this.lossFactor = lossFactor;
 		this.lossFrequency = lossFrequency;
 		contador = 0.0;
