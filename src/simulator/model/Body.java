@@ -79,6 +79,6 @@ public class Body {
 	
 	@Override 
 	public String toString() {
-		return "Body " + getState();
+		return getState().toString();
 	}
 }
