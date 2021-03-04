@@ -8,6 +8,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 
 	Vector2D direction; //direccion
 	double g;//acerelacion fija, i.e gravedad
+	//ay... que no entiendes el enunciado, añade el numerajo ese
 	
 	public MovingTowardsFixedPoint(Vector2D direction, double acceleration) {
 		super();
@@ -24,7 +25,6 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 			Vector2D acelera_direction = direction.scale(-g);
 			body.f = acelera_direction.scale(body.m);
 		}
-		
 	}
 
 	@Override
