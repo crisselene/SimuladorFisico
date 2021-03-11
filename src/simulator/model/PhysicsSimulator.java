@@ -38,9 +38,9 @@ public class PhysicsSimulator {
 	public JSONObject getState() {
 		JSONObject jo1 = new JSONObject();
 		
-		jo1.put("time: ", tiempoActual);
+		jo1.put("time", tiempoActual);
 		for(Body body: bs) {
-			jo1.put("bodies: ", body.getState());
+			jo1.put("bodies", body.getState());
 		}
 		return jo1;
 	}
