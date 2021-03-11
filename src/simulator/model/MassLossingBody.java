@@ -15,25 +15,6 @@ public class MassLossingBody extends Body{
 		contador = 0.0;
 	}
 	
-//	@Override
-//	void move(double t) {
-//		Vector2D a;
-//		if(m!=0) {
-//		a= f.scale(1/m);
-//		}
-//		else {
-//			a = new Vector2D(0,0);
-//		}
-//		Vector2D vt= v.scale(t);
-//		Vector2D at= a.scale(Math.pow(t,2)*1/2);
-//		this.p= p.plus(vt).plus(at);
-//		this.v= v.plus(a.scale(t));
-//		if(lossFrequency != 0.0) {
-//			m = m*(1 - lossFactor);
-//			contador += t; 
-//		}
-//	}
-	
 	void move(double t) {
 		super.move(t);
 		

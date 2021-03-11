@@ -20,6 +20,33 @@ public class Body {
 		this.p = p;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Body other = (Body) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+
+
+
 	public String getId() {
 		return id;
 	}
@@ -72,10 +99,6 @@ public class Body {
 		jo1.put("p", p);
 		return jo1;
 	}
-//	@Override
-//	public String toString() {
-//		return "Body [id=" + id + ", m=" + m + ", v=" + v + ", f=" + f + ", p=" + p + "]";
-//	}
 	
 	@Override 
 	public String toString() {
