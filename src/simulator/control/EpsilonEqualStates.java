@@ -21,10 +21,13 @@ public class EpsilonEqualStates implements StateComparator {
 	public boolean equal(JSONObject s1, JSONObject s2) {
 		if(s1.getDouble("time") == s2.getDouble("time")) {
 			s1.get("bodies");
-			//for (Body bodies : iterable) {
-				
-			//}
-		}
+			for (String key1 : s1.keySet()) {
+				for (String key2 : s2.keySet()) {
+					
+				}
+					
+				}
+			}
 		return false;
 	}
 
