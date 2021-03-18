@@ -1,14 +1,15 @@
 package simulator.control;
 
-//import org.json.JSONObject;
+import org.json.JSONObject;
 
-//public abstract class MassEqualStates implements StateComparator{
+public abstract class MassEqualStates implements StateComparator{
 	
-//	JSONObject jo1 = new JSONObject();
-//	JSONObject jo2 = new JSONObject();
-//	
-//	if(jo1.getDouble("time") == jo2.getDouble("time")){
-//	  
-//		
-//	}
-//}
+	 @Override
+	 public boolean equal(JSONObject s1, JSONObject s2) {
+		 if(s1.getDouble("time") == s2.getDouble("time")){
+			 
+		 }
+		return false;
+	 }
+		
+}

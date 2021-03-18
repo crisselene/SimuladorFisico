@@ -21,14 +21,6 @@ public class Body {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -44,8 +36,6 @@ public class Body {
 			return false;
 		return true;
 	}
-
-
 
 	public String getId() {
 		return id;
@@ -92,11 +82,11 @@ public class Body {
 	public JSONObject getState() {
 		JSONObject jo1 = new JSONObject();
 		
-		jo1.put("id", id);
-		jo1.put("m", m);
-		jo1.put("v", v);
-		jo1.put("f", f);
-		jo1.put("p", p);
+		jo1.put("id", getId());
+		jo1.put("m", getMass());
+		jo1.put("v", getVelocity().asJSONArray());
+		jo1.put("f", getForce().asJSONArray());
+		jo1.put("p", getPosition().asJSONArray());
 		return jo1;
 	}
 	

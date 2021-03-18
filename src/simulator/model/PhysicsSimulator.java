@@ -11,8 +11,10 @@ public class PhysicsSimulator {
 	private List<Body> bs;
 	private double tiempoActual = 0.0;
 	
-	public PhysicsSimulator(double tiempo, ForceLaws ley) {
-		this.tiempo = tiempo;
+	public PhysicsSimulator(double tiempo, ForceLaws ley) throws IllegalArgumentException {
+		if(tiempo > 0)
+			this.tiempo = tiempo;
+		else throw new IllegalArgumentException();
 		this.ley = ley;
 	}
 	
@@ -36,12 +38,15 @@ public class PhysicsSimulator {
 	}
 	
 	public JSONObject getState() {
+		//Asegurarse de lo de la key (null) esta bien y si no como hacerlo.
 		JSONObject jo1 = new JSONObject();
+		JSONObject joAux = new JSONObject();
 		
 		jo1.put("time", tiempoActual);
 		for(Body body: bs) {
-			jo1.put("bodies", body.getState());
+			joAux.put(null, body.getState());
 		}
+		jo1.put("bodies", joAux);
 		return jo1;
 	}
 	
