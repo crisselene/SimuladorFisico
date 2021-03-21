@@ -5,7 +5,7 @@ import java.util.List;
 import simulator.misc.Vector2D;
 
 public class NewtonUniversalGravitation implements ForceLaws {
-double G;
+	protected double G;
 
 	public NewtonUniversalGravitation() {
 		super();
@@ -35,18 +35,8 @@ double G;
 					Body jesimo = bs.get(j);
 					if (jesimo != iesimo) {
 
-						// LEY NEWTON fij
-						// numerador ley Newton:
-						double numerador = (iesimo.m * jesimo.m);
-						// denominador ley Newton (ditancia al cuadrado):
-						double denominador = jesimo.p.distanceTo(iesimo.p);
-						Math.pow(denominador, 2);
-						// multiplicar por G para obtener fij
-						double fij = G * (numerador / denominador);
-
-						// DIRECCION Fij
-						Vector2D dij = jesimo.p.minus(iesimo.p);
-						Vector2D Fij = dij.scale(fij);
+						// LEY NEWTON para obtener vector Fij
+						Vector2D Fij = forceNewton(iesimo, jesimo);
 
 						iesimo.f = Fij;
 					}
@@ -54,6 +44,21 @@ double G;
 				}
 			}
 		}
+	}
+
+	private Vector2D forceNewton(Body iesimo, Body jesimo) {
+		// numerador ley Newton:
+		double numerador = (iesimo.m * jesimo.m);
+		// denominador ley Newton (ditancia al cuadrado):
+		double denominador = jesimo.p.distanceTo(iesimo.p);
+		Math.pow(denominador, 2);
+		// multiplicar por G para obtener fij
+		double fij = G * (numerador / denominador);
+
+		// DIRECCION Fij
+		Vector2D dij = jesimo.p.minus(iesimo.p);
+		Vector2D Fij = dij.scale(fij);
+		return Fij;
 	}
 
 	@Override

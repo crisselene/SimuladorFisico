@@ -67,7 +67,10 @@ public class UseExample {
 
 		JSONArray ja = jo.getJSONArray("d");
 		for (int i = 0; i < ja.length(); i++) {
-			System.out.println(ja.getInt(i)); // We know the elements are Int
+			System.out.println(ja.getInt(i));// We know the elements are Int
+			//PRUEBA PARA EL COMPARADOR, BORRAR**********+***
+			System.out.println("PRUEBA");
+			System.out.println(ja.get(i));
 		}
 
 		// Nested JSON Objects
@@ -79,6 +82,11 @@ public class UseExample {
 		JSONObject jo2 = jo.getJSONObject("e");
 		for (String key : jo2.keySet()) {
 			System.out.println("-> " + key);
+			//PRUEBA PARA EL COMPARADOR, BORRAR**********+***
+			System.out.println("PRUEBA");
+			//System.out.println(jo2.get(key));
+			System.out.println(jo2.get("f"));
+			System.out.println(key);
 		}
 
 	}
