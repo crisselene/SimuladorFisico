@@ -2,6 +2,7 @@ package simulator.model;
 
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PhysicsSimulator {
@@ -40,11 +41,11 @@ public class PhysicsSimulator {
 	public JSONObject getState() {
 		//Asegurarse de lo de la key (null) esta bien y si no como hacerlo.
 		JSONObject jo1 = new JSONObject();
-		JSONObject joAux = new JSONObject();
+		JSONArray joAux = new JSONArray();
 		
 		jo1.put("time", tiempoActual);
 		for(Body body: bs) {
-			joAux.put(null, body.getState());
+			joAux.put(body.getState());
 		}
 		jo1.put("bodies", joAux);
 		return jo1;
