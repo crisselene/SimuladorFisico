@@ -1,5 +1,10 @@
 package simulator.launcher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -27,6 +32,7 @@ public class Main {
 	//
 	private static Double _dtime = null;
 	private static String _inFile = null;
+	private static String _outFile = null;
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
 
@@ -158,6 +164,11 @@ public class Main {
 			throw new ParseException("In batch mode an input file of bodies is required");
 		}
 	}
+	
+	//parse outFile 
+	private static void parseOutFileOption(CommandLine line) throws ParseException {
+		_outFile =line.getOptionValue("o");
+	}
 
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
 		String dt = line.getOptionValue("dt", _dtimeDefaultValue.toString());
@@ -225,6 +236,9 @@ public class Main {
 
 	private static void startBatchMode() throws Exception {
 		// TODO complete this method
+		InputStream is = new FileInputStream(new File(_inFile));
+		//el fichero de salida nos lo pueden pasar o no
+		OutputStream os  ;
 	}
 
 	private static void start(String[] args) throws Exception {
