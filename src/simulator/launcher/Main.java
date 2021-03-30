@@ -2,6 +2,7 @@ package simulator.launcher;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -19,6 +20,7 @@ import simulator.factories.Factory;
 import simulator.misc.Vector2D;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.PhysicsSimulator;
 
 public class Main {
 
@@ -238,7 +240,17 @@ public class Main {
 		// TODO complete this method
 		InputStream is = new FileInputStream(new File(_inFile));
 		//el fichero de salida nos lo pueden pasar o no
-		OutputStream os  ;
+		//se parsea quien es el fichero de salida, si no se crea 
+		OutputStream os = _outFile == null ?
+				System.out : new FileOutputStream(new File(_outFile));
+		
+		//TODO inicializar tiempo y ley, de momento cojo la default
+		//falta obtener la ley , con factoria
+		//PhysicsSimulator simulator = new PhysicsSimulator(_dtime, Ç??????);
+		
+		InputStream expOut = null;
+		StateComparator stateCmp = null;
+		//if(_exp)
 	}
 
 	private static void start(String[] args) throws Exception {

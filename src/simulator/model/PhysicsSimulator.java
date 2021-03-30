@@ -7,10 +7,10 @@ import org.json.JSONObject;
 
 public class PhysicsSimulator {
 
-	private double tiempo; //tiempo real de un paso.
+	private double dt; //tiempo real de un paso.
 	private ForceLaws ley;
 	private List<Body> bs;
-	private double tiempoActual = 0.0;
+	private double tiempo = 0.0;
 	
 	public PhysicsSimulator(double tiempo, ForceLaws ley) throws IllegalArgumentException {
 		if(tiempo > 0)
@@ -27,15 +27,17 @@ public class PhysicsSimulator {
 		for(Body body : bs) {
 			body.move(tiempo);
 		}
-		tiempoActual += tiempo;
+		tiempo += dt;
 	}
 	
 	public void addBody(Body b) {
-		for (Body body : bs) {
-			if(body.getId().equals(b.id))
-				throw new IllegalArgumentException();
+		if(!bs.contains(b)) {
+			for (Body body : bs) {
+				if(body.getId().equals(b.id))
+					throw new IllegalArgumentException();
+			}
+			bs.add(b);
 		}
-		bs.add(b);
 	}
 	
 	public JSONObject getState() {
@@ -43,7 +45,7 @@ public class PhysicsSimulator {
 		JSONObject jo1 = new JSONObject();
 		JSONArray joAux = new JSONArray();
 		
-		jo1.put("time", tiempoActual);
+		jo1.put("time", tiempo);
 		for(Body body: bs) {
 			joAux.put(body.getState());
 		}

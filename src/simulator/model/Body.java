@@ -8,15 +8,15 @@ public class Body {
 	protected String id;
 	protected double m;//masa
 	protected Vector2D v;//velocidad
-	protected Vector2D f;//fuerza
+	protected Vector2D f = new Vector2D();//fuerza
 	protected Vector2D p;//posicion
+	protected Vector2D a; //aceleracion
 	
 	public Body(String id, double m, Vector2D v, Vector2D p) {
 		super();
 		this.id = id;
 		this.m = m;
 		this.v = v;
-		this.f = new Vector2D(0.0,0.0);
 		this.p = p;
 	}
 
@@ -57,16 +57,44 @@ public class Body {
 		return p;
 	}
 	
+	public Vector2D getAcceleration() {
+		return a;
+	}
+
+	public void setAcceleration(Vector2D a) {
+		this.a = a;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setMass(double m) {
+		this.m = m;
+	}
+
+	public void setVelocity(Vector2D v) {
+		this.v = v;
+	}
+
+	public void setForce(Vector2D f) {
+		this.f = f;
+	}
+
+	public void setPosition(Vector2D p) {
+		this.p = p;
+	}
+	
+
 	void addForce(Vector2D f) {
 		this.f.plus(f);
 	}
 	
 	void resetForce() {
-		this.f = new Vector2D(0,0);
+		this.f = new Vector2D();
 	}
-	
+
 	void move(double t) {
-		Vector2D a;
 		if(m!=0) {
 		a= f.scale(1/m);
 		}
