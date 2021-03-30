@@ -1,9 +1,9 @@
 package simulator.control;
 
-import org.json.JSONArray;
+import org.json.JSONArray; 
 import org.json.JSONObject;
 
-public abstract class MassEqualStates implements StateComparator{
+public class MassEqualStates implements StateComparator{
 	
 	 @Override
 	 public boolean equal(JSONObject s1, JSONObject s2) {
