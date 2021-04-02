@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -15,11 +16,22 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.json.JSONObject;
 
+import simulator.control.Controller;
 import simulator.control.StateComparator;
+import simulator.factories.BasicBodyBuilder;
+import simulator.factories.Builder;
+import simulator.factories.BuilderBasedFactory;
+import simulator.factories.EpsilonEqualStatesBuilder;
 import simulator.factories.Factory;
+import simulator.factories.MassEqualStatesBuilder;
+import simulator.factories.MassLosingBodyBuilder;
+import simulator.factories.MovingTowardsFixedPointBuilder;
+import simulator.factories.NewtonUniversalGravitationBuilder;
+import simulator.factories.NoForceBuilder;
 import simulator.misc.Vector2D;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.NewtonUniversalGravitation;
 import simulator.model.PhysicsSimulator;
 
 public class Main {
@@ -44,22 +56,25 @@ public class Main {
 	private static Factory<StateComparator> _stateComparatorFactory;
 
 	private static void init() {
-		// TODO initialize the bodies factory
 		
-		//Body b = new Body("god", 3.0 , new Vector2D(1,1), new Vector2D(2,2), new Vector2D(1,1));
+		//initialize the bodies factory (este codigo nos lo dan)
+		ArrayList<Builder<Body>> bodyBuilders = new ArrayList<>();
+		bodyBuilders.add(new BasicBodyBuilder());
+		bodyBuilders.add(new MassLosingBodyBuilder());
+		_bodyFactory = new BuilderBasedFactory<Body>(bodyBuilders);	
 		
-		// TODO initialize the force laws factory
+		//initialize the force laws factory(igual pero con las leyes)
+		ArrayList<Builder<ForceLaws>> lawsBuilder = new ArrayList<>();
+		lawsBuilder.add(new NewtonUniversalGravitationBuilder());
+		lawsBuilder.add(new MovingTowardsFixedPointBuilder());
+		lawsBuilder.add(new NoForceBuilder());
+		_forceLawsFactory = new BuilderBasedFactory<ForceLaws>(lawsBuilder);
 		
-//		System.out.println(b.toString());
-//		b.move(2);
-//		System.out.println(b.toString());
-//		b.addForce(new Vector2D(2,2));
-//		System.out.println(b.toString());
-//		b.resetForce();
-//		System.out.println(b.toString());
-		
-
-		// TODO initialize the state comparator
+		//initialize the state comparator(y con los comparadores)
+		ArrayList<Builder<StateComparator>> comparatorBuilder = new ArrayList<>();
+		comparatorBuilder.add(new MassEqualStatesBuilder());
+		comparatorBuilder.add(new EpsilonEqualStatesBuilder());
+		_stateComparatorFactory = new BuilderBasedFactory<StateComparator>(comparatorBuilder);
 	}
 
 	private static void parseArgs(String[] args) {
