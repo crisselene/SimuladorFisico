@@ -7,14 +7,20 @@ import simulator.control.StateComparator;
 
 public class MassEqualStatesBuilder extends Builder<StateComparator> {
 
+	public MassEqualStatesBuilder() {
+		super("masseq", "MassEqualStatesBuilder");
+	}
+	
 	@Override
 	protected StateComparator createTheInstance(JSONObject jo) {
 		// TODO Auto-generated method stub
-		this._TypeTag = jo.getString("type");
-		if(this._TypeTag.equals("masseq")) {
 			return new MassEqualStates();
-		}
-		else return null;
 	}
 
+	@Override 
+	protected JSONObject createData() {
+		JSONObject jo = new JSONObject();
+		return jo;
+	}
+	
 }

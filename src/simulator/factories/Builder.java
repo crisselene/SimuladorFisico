@@ -7,7 +7,10 @@ public abstract class Builder<T> {
 
 	String _TypeTag; //tipo del objeto a construir
 	String _Desc; //descripción del objeto
-	
+	public Builder(String type, String desc) {
+		this._TypeTag = type;
+		this._Desc = desc;
+	}
 	public T createInstance(JSONObject info) {
 		T inst = null;
 		if(_TypeTag != null && _TypeTag.equals(info.getString("type")))

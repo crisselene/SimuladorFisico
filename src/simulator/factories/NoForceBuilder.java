@@ -7,14 +7,19 @@ import simulator.model.NoForce;
 
 public class NoForceBuilder extends Builder<ForceLaws>{
 
+	public NoForceBuilder() {
+		super("ng", "NoForceBuilder");
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jo) {
 		// TODO Auto-generated method stub
-		this._TypeTag = jo.getString("type");
-		if(this._TypeTag.equals("ng")){
 			return new NoForce();
-		}
-		else return null;
 	}
 
+	@Override
+	protected JSONObject createData() {
+		return new JSONObject();
+	}
 }

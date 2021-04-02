@@ -8,38 +8,38 @@ import simulator.misc.Vector2D;
 
 public class BasicBodyBuilder extends Builder<Body> {
 
+	public BasicBodyBuilder() {
+		super("basic", "BasicBodyBuilder");
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	protected Body createTheInstance(JSONObject jo) {
 		// TODO Auto-generated method stub
 		double array[] = new double[2]; //recorrer los array de posicion, velocidad
 		
-		this._TypeTag = jo.getString("type");
-		if(this._TypeTag.equals("basic")) {
-			String id = jo.getJSONObject("data").getString("id");
-			
-			JSONArray ja = jo.getJSONObject("data").getJSONArray("p");
-			if(ja != null) {
+		String id = jo.getJSONObject("data").getString("id");
+//			Vector2D p = new Vector2D(jo.getJSONObject("data").getJSONArray("p").getDouble(0),
+//									  jo.getJSONObject("data").getJSONArray("p").getDouble(1));
+		JSONArray ja = jo.getJSONObject("data").getJSONArray("p");
+		if(ja != null) {
 				for(int i = 0; i < ja.length(); i++) {
 					array[i] = ja.getDouble(i);
-				}
 			}
-			Vector2D p = new Vector2D(array[0], array[1]);
+		}
+		Vector2D p = new Vector2D(array[0], array[1]);
 			
-			ja = jo.getJSONObject("data").getJSONArray("v");
-			if(ja != null) {
-				for (int i = 0; i < ja.length(); i++) {
-					array[i] = ja.getDouble(i);
-				}
+		ja = jo.getJSONObject("data").getJSONArray("v");
+		if(ja != null) {
+			for (int i = 0; i < ja.length(); i++) {
+				array[i] = ja.getDouble(i);
 			}
-			Vector2D v = new Vector2D(array[0], array[1]);
-			
-			double m = jo.getJSONObject("data").getDouble("m");
-			
-			return new Body(id, m, v, p);
 		}
-		else {
-			return null;
-		}
+		Vector2D v = new Vector2D(array[0], array[1]);
+			
+		double m = jo.getJSONObject("data").getDouble("m");
+			
+		return new Body(id, m, v, p);
 	}
 
 	@Override

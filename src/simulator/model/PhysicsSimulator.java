@@ -16,7 +16,10 @@ public class PhysicsSimulator {
 		if(tiempo > 0)
 			this.tiempo = tiempo;
 		else throw new IllegalArgumentException();
-		this.ley = ley;
+		
+		if(ley != null)
+			this.ley = ley;
+		else throw new IllegalArgumentException();
 	}
 	
 	public void advance() {
