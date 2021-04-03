@@ -27,7 +27,7 @@ public abstract class Controller {
 		}
 	}
 
-	public void run(int _steps, OutputStream os ,InputStream expOut, StateComparator cmp) {
+	public void run(int _steps, OutputStream os ,InputStream expOut, StateComparator cmp) throws DifferentStructs_Exception {
 		JSONObject expOutJO = null;
 		
 		if(expOut!=null) expOutJO = new JSONObject(new JSONTokener(expOut));
@@ -57,8 +57,8 @@ public abstract class Controller {
 			for (int i = 0; i < expStateArray.length() ; i++) {
 				expState = expStateArray.getJSONObject(i);
 				if(!cmp.equal(expState, currState)) {
-					//TODO EXCEPTION throw new 
-					System.out.println("Excepcion"); //***************************
+					throw new DifferentStructs_Exception("Las estructuras son distintas", _steps);
+					 //***************************
 				//si aquí te da siempre error puede ser error de coma flotante
 					//comprobar metiendo los json generados al viewer
 				}
