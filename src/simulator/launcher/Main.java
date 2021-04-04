@@ -41,12 +41,16 @@ public class Main {
 	private final static Double _dtimeDefaultValue = 2500.0;
 	private final static String _forceLawsDefaultValue = "nlug";
 	private final static String _stateComparatorDefaultValue = "epseq";
+	private final static Double _stepsDefaultValue = 150.0;//default steps
+	
 
 	// some attributes to stores values corresponding to command-line parameters
 	//
 	private static Double _dtime = null;
 	private static String _inFile = null;
-	private static String _outFile = null;
+	private static String _outFile = null;//outfile
+	private static String _outFileExpected = null;//outfile expected
+	private static int _steps = 150;//steps, 150 default
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
 
@@ -91,8 +95,11 @@ public class Main {
 
 			parseHelpOption(line, cmdLineOptions);
 			parseInFileOption(line);
-			// TODO add support of -o, -eo, and -s (define corresponding parse methods)
-
+			//add support of -o, -eo, and -s (define corresponding parse methods)
+			parseOutFileOption(line);// o , output
+			parseExpectedOutput(line); //eo , expected output
+			parseSteps(line); // s, steps
+			
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
 			parseStateComparatorOption(line);
@@ -115,6 +122,7 @@ public class Main {
 
 	}
 
+
 	private static Options buildOptions() {
 		Options cmdLineOptions = new Options();
 
@@ -124,8 +132,18 @@ public class Main {
 		// input file
 		cmdLineOptions.addOption(Option.builder("i").longOpt("input").hasArg().desc("Bodies JSON input file.").build());
 
-		// TODO add support for -o, -eo, and -s (add corresponding information to
-		// cmdLineOptions)
+		//add support for -o, -eo, and -s (add corresponding information to
+		// cmdLineOptions):
+		
+		// ouput file
+		cmdLineOptions.addOption(Option.builder("o").longOpt("output").hasArg().desc("Bodies JSON output file.").build());
+
+		// ouputExpected file
+		cmdLineOptions.addOption(Option.builder("eo").longOpt("expected output").hasArg().desc("Bodies JSON expected output file.").build());
+
+		// steps
+		cmdLineOptions.addOption(Option.builder("s").longOpt("steps").hasArg().desc("number of\n" + 
+				"simulation steps.").build());
 
 		// delta-time
 		cmdLineOptions.addOption(Option.builder("dt").longOpt("delta-time").hasArg()
@@ -185,6 +203,23 @@ public class Main {
 	//parse outFile 
 	private static void parseOutFileOption(CommandLine line) throws ParseException {
 		_outFile =line.getOptionValue("o");
+	}
+	
+	//parse expected output
+	private static void parseExpectedOutput(CommandLine line) {
+		_outFileExpected = line.getOptionValue("eo");
+	}
+
+	private static void parseSteps(CommandLine line) throws ParseException {
+		//los pasos tienen que ser un numero, por tanto hacemos lo mismo
+		//que en parseDeltaTimeOption	
+		String steps = line.getOptionValue("s", _stepsDefaultValue.toString());
+		try {
+			_steps = Integer.parseInt(steps);
+			assert (_steps > 0);
+		} catch (Exception e) {
+			throw new ParseException("Invalid steps value: " + steps);
+		}
 	}
 
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
@@ -252,20 +287,27 @@ public class Main {
 	}
 
 	private static void startBatchMode() throws Exception {
-		// TODO complete this method
 		InputStream is = new FileInputStream(new File(_inFile));
+		
 		//el fichero de salida nos lo pueden pasar o no
 		//se parsea quien es el fichero de salida, si no se crea 
 		OutputStream os = _outFile == null ?
 				System.out : new FileOutputStream(new File(_outFile));
 		
-		//TODO inicializar tiempo y ley, de momento cojo la default
-		//falta obtener la ley , con factoria
-		//PhysicsSimulator simulator = new PhysicsSimulator(_dtime, Ç??????);
+		//inicializar Physic simulator y controller
+		//falta obtener la ley , con factoria tenemos que obtener una sola ley para inicializa el simulador
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
+		Controller ctrl = new Controller(simulator, _bodyFactory);
 		
+		//output expected
 		InputStream expOut = null;
 		StateComparator stateCmp = null;
-		//if(_exp)
+		if(_outFileExpected!=null) {
+			expOut = new FileInputStream(new File(_outFileExpected));
+			stateCmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
+		}
+		
+		ctrl.run(_steps, os, expOut, stateCmp);
 	}
 
 	private static void start(String[] args) throws Exception {

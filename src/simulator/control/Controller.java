@@ -13,10 +13,16 @@ import simulator.factories.Factory;
 import simulator.model.Body;
 import simulator.model.PhysicsSimulator;
 
-public abstract class Controller {
+public class Controller {
 	PhysicsSimulator _sim;
 	Factory<Body> _bodiesFactory;
 	
+	public Controller(PhysicsSimulator _sim, Factory<Body> _bodiesFactory) {
+		super();
+		this._sim = _sim;
+		this._bodiesFactory = _bodiesFactory;
+	}
+
 	//cojo el fichero de entrada, lo leo y proceso os cuerpos
 	//este metodo lo compaerten todas las clases
 	public void loadBodies(InputStream in) {
