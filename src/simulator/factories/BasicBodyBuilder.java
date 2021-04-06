@@ -14,33 +14,27 @@ public class BasicBodyBuilder extends Builder<Body> {
 	}
 
 	@Override
-	protected Body createTheInstance(JSONObject jo) {
-		// TODO Auto-generated method stub
+	protected Body createTheInstance(JSONObject data) {
 		double array[] = new double[2]; //recorrer los array de posicion, velocidad
-		
-		String id = jo.getJSONObject("data").getString("id");
-//			Vector2D p = new Vector2D(jo.getJSONObject("data").getJSONArray("p").getDouble(0),
-//									  jo.getJSONObject("data").getJSONArray("p").getDouble(1));
-		JSONArray ja = jo.getJSONObject("data").getJSONArray("p");
+		String id = data.getString("id");
+		JSONArray ja = data.getJSONArray("p");
 		if(ja != null) {
 				for(int i = 0; i < ja.length(); i++) {
 					array[i] = ja.getDouble(i);
 			}
 		}
 		Vector2D p = new Vector2D(array[0], array[1]);
-			
-		ja = jo.getJSONObject("data").getJSONArray("v");
+		ja = data.getJSONArray("v");
 		if(ja != null) {
 			for (int i = 0; i < ja.length(); i++) {
 				array[i] = ja.getDouble(i);
 			}
 		}
 		Vector2D v = new Vector2D(array[0], array[1]);
-			
-		double m = jo.getJSONObject("data").getDouble("m");
-			
+		double m = data.getDouble("m");	
 		return new Body(id, m, v, p);
 	}
+	
 
 	@Override
 	protected JSONObject createData() {

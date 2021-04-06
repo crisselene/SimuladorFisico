@@ -307,6 +307,7 @@ public class Main {
 			stateCmp = _stateComparatorFactory.createInstance(_stateComparatorInfo);
 		}
 		
+		ctrl.loadBodies(is);
 		ctrl.run(_steps, os, expOut, stateCmp);
 	}
 

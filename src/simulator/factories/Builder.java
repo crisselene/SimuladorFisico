@@ -18,9 +18,6 @@ public abstract class Builder<T> {
 		/*En caso de que reconozca el campo type pero haya un error en alguno
 		de los valores suministrados por la sección data, el método lanza una excepcion
 		IllegalArgumentException. ???*/
-			if(inst==null) {
-				throw new IllegalArgumentException();
-			}
 		return inst;
 	}
 	//abstracto porque no sabemos que es T

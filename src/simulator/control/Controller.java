@@ -51,25 +51,29 @@ public class Controller {
 		p.println("{");
 		p.println("\"states\": [");
 		
+		
 		JSONObject currState = null;
 		JSONObject expState = null;
 		JSONArray expStateArray = null;
 		
-		//comparación de los estados iniciales
-		currState = _sim.getState();
-		p.println(currState);
-		if(expOutJO != null) {
-			expStateArray = expOutJO.getJSONArray("states");
-			for (int i = 0; i < expStateArray.length() ; i++) {
-				expState = expStateArray.getJSONObject(i);
-				if(!cmp.equal(expState, currState)) {
-					throw new DifferentStructs_Exception("Las estructuras son distintas", _steps);
-					 //***************************
-				//si aquí te da siempre error puede ser error de coma flotante
-					//comprobar metiendo los json generados al viewer
-				}
-			}	
+		
+		for (int i = 0; i < _steps; i++) {
+			//comparación de los estados iniciales
+			currState = _sim.getState();
+			p.print(currState+"\n"); //lo vamos imprimiendo en distintas líneas
+			p.print(","); //los separamos por comas para que sea legible
+			_sim.advance();
+			//si le hesmos pasado un expected json
+			if(expOutJO != null) {
+				expState = expOutJO.getJSONArray("states").getJSONObject(i);
+				if(cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas", _steps); //se comparan los dos estados
+				
+			}
 		}
+		p.println(currState);//el último 
+		//si aquí te da siempre error puede ser error de coma flotante
+		//comprobar metiendo los json generados al viewer
+				
 		
 		//cerrar json
 		p.println("]");
