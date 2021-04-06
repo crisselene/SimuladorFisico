@@ -101,11 +101,14 @@ public class Body {
 		else {
 			a = new Vector2D(0,0);
 		}
-		Vector2D vt= v.scale(t);
-		Vector2D at= a.scale(Math.pow(t,2)*1/2);
-		this.p= p.plus(vt).plus(at);
-		this.v= v.plus(a.scale(t));
+		//Vector2D vt= v.scale(t);
+		//Vector2D at= a.scale(Math.pow(t,2)*1/2);
+		//this.p= p.plus(vt).plus(at);
+		//this.v= v.plus(a.scale(t));
+		Vector2D p2 = p.plus(v.scale(t)).plus(a.scale(t * t * 0.5));
+		p = p2;
 	}
+	//Vector2D p2 = p.plus(v.scale(t)).plus(a.scale(t * t * 0.5));
 	
 	public JSONObject getState() {
 		JSONObject jo1 = new JSONObject();

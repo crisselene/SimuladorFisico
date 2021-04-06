@@ -66,7 +66,9 @@ public class Controller {
 			//si le hesmos pasado un expected json
 			if(expOutJO != null) {
 				expState = expOutJO.getJSONArray("states").getJSONObject(i);
-				if(cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas", _steps); //se comparan los dos estados
+				//System.out.println(expOutJO.getJSONArray("states").getJSONObject(i));
+				//System.out.println(cmp.equal(expState,currState));
+				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas", _steps); //se comparan los dos estados
 				
 			}
 		}
