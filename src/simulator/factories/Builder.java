@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -13,11 +14,12 @@ public abstract class Builder<T> {
 	}
 	public T createInstance(JSONObject info) {
 		T inst = null;
-		if(_TypeTag != null && _TypeTag.equals(info.getString("type")))
-			inst = createTheInstance(info.getJSONObject("data"));
-		/*En caso de que reconozca el campo type pero haya un error en alguno
-		de los valores suministrados por la sección data, el método lanza una excepcion
-		IllegalArgumentException. ???*/
+		try {
+			if(_TypeTag != null && _TypeTag.equals(info.getString("type")))
+				inst = createTheInstance(info.getJSONObject("data"));
+		}catch(JSONException JSONe) {
+			throw new IllegalArgumentException(JSONe);
+		}
 		return inst;
 	}
 	//abstracto porque no sabemos que es T
