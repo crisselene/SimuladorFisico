@@ -11,6 +11,9 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	
 	public BuilderBasedFactory(List<Builder<T>>builders) {
 		this.builderList = builders;
+		for (Builder<T> builder : builderList) {
+			estructsJson.add(builder.getBuilderInfo());
+		}
 	}
 
 	@Override
@@ -30,9 +33,6 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	@Override
 	public List<JSONObject> getInfo() {
 		//devuelve en una lista las estructuras JSON devueltas por getBuilderInfo()
-		for (Builder<T> builder : builderList) {
-			estructsJson.add(builder.getBuilderInfo());
-		}
 		return estructsJson;
 	}
 
