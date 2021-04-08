@@ -33,8 +33,8 @@ public class EpsilonEqualStates implements StateComparator {
 					JSONObject uno = bodiesS1.getJSONObject(i);
 					JSONObject dos = bodiesS1.getJSONObject(i);
 					//que el id sea igual
-					if(dos.getString("id")==uno.getString("id") &&
-						dos.getDouble("m")==uno.getDouble("m") ) {
+					if(dos.getString("id").equals(uno.getString("id")) &&
+						Math.abs(dos.getDouble("m")-uno.getDouble("m"))<=eps)  {
 					//vectores para comparar la posicion y velocidad
 					Vector2D v1 = new Vector2D(uno.getJSONArray("p").getDouble(0),uno.getJSONArray("p").getDouble(1)); //"x" e "y"
 					Vector2D v2 = new Vector2D(dos.getJSONArray("p").getDouble(0),dos.getJSONArray("p").getDouble(1));
