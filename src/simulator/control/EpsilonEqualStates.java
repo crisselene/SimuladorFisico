@@ -1,12 +1,10 @@
 package simulator.control;
 
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import simulator.misc.Vector2D;
-import simulator.model.Body;
+
 
 public class EpsilonEqualStates implements StateComparator {
 	
@@ -36,16 +34,16 @@ public class EpsilonEqualStates implements StateComparator {
 					if(dos.getString("id").equals(uno.getString("id")) &&
 						Math.abs(dos.getDouble("m")-uno.getDouble("m"))<=eps)  {
 					//vectores para comparar la posicion 
-					Vector2D p1 = new Vector2D(uno.getJSONArray("p").getDouble(0),uno.getJSONArray("p").getDouble(1)); //"x" e "y"
-					Vector2D p2 = new Vector2D(dos.getJSONArray("p").getDouble(0),dos.getJSONArray("p").getDouble(1));
+					Vector2D p1 = generateVector2D(uno.getJSONArray("p"));
+					Vector2D p2 = generateVector2D(dos.getJSONArray("p"));
 					double distancia = p1.distanceTo(p2);
 					//vector velocidad
-					Vector2D v1 = new Vector2D(uno.getJSONArray("v").getDouble(0),uno.getJSONArray("v").getDouble(1)); 
-					Vector2D v2 = new Vector2D(dos.getJSONArray("v").getDouble(0),dos.getJSONArray("v").getDouble(1));
+					Vector2D v1 = generateVector2D(uno.getJSONArray("v")); 
+					Vector2D v2 = generateVector2D(dos.getJSONArray("v"));
 					double distanciaV = v1.distanceTo(v2);
 					//vector fuerza
-					Vector2D f1 = new Vector2D(uno.getJSONArray("f").getDouble(0),uno.getJSONArray("f").getDouble(1)); 
-					Vector2D f2 = new Vector2D(dos.getJSONArray("f").getDouble(0),dos.getJSONArray("f").getDouble(1));
+					Vector2D f1 = generateVector2D(uno.getJSONArray("f")); 
+					Vector2D f2 = generateVector2D(dos.getJSONArray("f"));
 					double distanciaF = f1.distanceTo(f2);
 					
 					if(igual_modulo(distancia)) {
@@ -65,7 +63,12 @@ public class EpsilonEqualStates implements StateComparator {
 		 }
 		return cuerpos_iguales;
 	 }
-
+	
+	//genera los vectores2D
+	private Vector2D generateVector2D(JSONArray ja) {
+		Vector2D vector = new Vector2D(ja.getDouble(0),ja.getDouble(1));
+		return vector;
+	}
 
 	//comprueba si tienen el mismo modulo
 	private boolean igual_modulo(double a) {

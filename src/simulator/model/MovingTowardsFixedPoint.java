@@ -18,7 +18,6 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 
 	@Override
 	public void apply(List<Body> bs) {
-		Vector2D o = new Vector2D(0,0);
 		//dada una aceleracion fija(g) y una direccion la aceleracion es (-g* direccion)
 		//la fuerza del cuerpo entonces es igual a masa por la aceleracion obtenida
 		for (Body body : bs) {
