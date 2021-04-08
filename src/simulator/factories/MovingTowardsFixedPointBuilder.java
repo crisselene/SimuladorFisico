@@ -11,27 +11,29 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	public MovingTowardsFixedPointBuilder() {
 		super("mtcp", "MovingTowardsFixedPointBuilder");
-		// TODO Auto-generated constructor stub
 	}
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jo) {
-		// TODO Auto-generated method stub
 		int array[] = new int[2];
 		
-
 		//revisar si pasarle algo al coinstructor
 		//Hay que cambiarle el (direccion por C) en el constructor de MovingTowardsFP
 		JSONArray ja = jo.getJSONArray("c");
-		if(ja != null) {
-			for(int i = 0; i < ja.length(); i++) {
-				array[i] = ja.getInt(i);
-			}
-		}
-		Vector2D c = jo.has("c") ? new Vector2D(array[0], array[1]) : new Vector2D(0,0);
 		
+
+		Vector2D c = jo.has("c") ? obtener_c(jo, array, ja) : new Vector2D(0,0);
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
 		
 		return new MovingTowardsFixedPoint(c, g);
+	}
+	
+	private Vector2D obtener_c(JSONObject jo, int[] array, JSONArray ja) {
+		if(ja != null) {
+			for(int i = 0; i < ja.length(); i++) {
+				array[i] = ja.getInt(i);
+			}	
+		}
+		return new Vector2D(array[0], array[1]);
 	}
 	
 	@Override
