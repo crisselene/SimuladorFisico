@@ -36,11 +36,23 @@ public class EpsilonEqualStates implements StateComparator {
 					if(dos.getString("id").equals(uno.getString("id")) &&
 						Math.abs(dos.getDouble("m")-uno.getDouble("m"))<=eps)  {
 					//vectores para comparar la posicion y velocidad
-					Vector2D v1 = new Vector2D(uno.getJSONArray("p").getDouble(0),uno.getJSONArray("p").getDouble(1)); //"x" e "y"
-					Vector2D v2 = new Vector2D(dos.getJSONArray("p").getDouble(0),dos.getJSONArray("p").getDouble(1));
-					double distancia = v1.distanceTo(v2);
+					Vector2D p1 = new Vector2D(uno.getJSONArray("p").getDouble(0),uno.getJSONArray("p").getDouble(1)); //"x" e "y"
+					Vector2D p2 = new Vector2D(dos.getJSONArray("p").getDouble(0),dos.getJSONArray("p").getDouble(1));
+					double distancia = p1.distanceTo(p2);
+					
+					Vector2D v1 = new Vector2D(uno.getJSONArray("v").getDouble(0),uno.getJSONArray("v").getDouble(1)); 
+					Vector2D v2 = new Vector2D(dos.getJSONArray("v").getDouble(0),dos.getJSONArray("v").getDouble(1));
+					double distanciaV = v1.distanceTo(v2);
+					Vector2D f1 = new Vector2D(uno.getJSONArray("f").getDouble(0),uno.getJSONArray("f").getDouble(1)); 
+					Vector2D f2 = new Vector2D(dos.getJSONArray("f").getDouble(0),dos.getJSONArray("f").getDouble(1));
+					double distanciaF = f1.distanceTo(f2);
+					
 					if(igual_modulo(distancia)) {
-						cuerpos_iguales= true;
+						if(igual_modulo(distanciaV)) {
+							if(igual_modulo(distanciaF)) {
+								cuerpos_iguales= true;
+							}
+						}
 					}
 					}else {
 						cuerpos_iguales = false;
@@ -52,7 +64,6 @@ public class EpsilonEqualStates implements StateComparator {
 		 }
 		return cuerpos_iguales;
 	 }
-
 
 
 	//comprueba si tienen el mismo modulo
