@@ -21,13 +21,13 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 		//revisar si pasarle algo al coinstructor
 		//Hay que cambiarle el (direccion por C) en el constructor de MovingTowardsFP
-		JSONArray ja = jo.getJSONObject("data").getJSONArray("c");
-		if(ja != null && jo.has("c")) {
+		JSONArray ja = jo.getJSONArray("c");
+		if(ja != null) {
 			for(int i = 0; i < ja.length(); i++) {
 				array[i] = ja.getInt(i);
 			}
 		}
-		Vector2D c = new Vector2D(array[0], array[1]);
+		Vector2D c = jo.has("c") ? new Vector2D(array[0], array[1]) : new Vector2D(0,0);
 		
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
 		

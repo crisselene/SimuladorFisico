@@ -19,9 +19,9 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 		// TODO Auto-generated method stub
 		double array[] = new double[2];
 		
-		String id = jo.getJSONObject("data").getString("id");
+		String id = jo.getString("id");
 		
-		JSONArray ja = jo.getJSONObject("data").getJSONArray("p");
+		JSONArray ja = jo.getJSONArray("p");
 		if(ja != null) {
 			for(int i = 0; i < ja.length(); i++) {
 				array[i] = ja.getDouble(i);
@@ -29,7 +29,7 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 		}
 		Vector2D p = new Vector2D(array[0], array[1]);
 		
-		ja = jo.getJSONObject("data").getJSONArray("v");
+		ja = jo.getJSONArray("v");
 		if(ja != null) {
 			for(int i = 0; i < ja.length(); i++) {
 				array[i] = ja.getDouble(i);

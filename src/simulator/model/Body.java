@@ -10,7 +10,6 @@ public class Body {
 	protected Vector2D v;//velocidad
 	protected Vector2D f = new Vector2D();//fuerza
 	protected Vector2D p;//posicion
-	protected Vector2D a; //aceleracion
 	
 	public Body(String id, double m, Vector2D v, Vector2D p) {
 		super();
@@ -57,13 +56,13 @@ public class Body {
 		return p;
 	}
 	
-	public Vector2D getAcceleration() {
-		return a;
-	}
-
-	public void setAcceleration(Vector2D a) {
-		this.a = a;
-	}
+//	public Vector2D getAcceleration() {
+//		return a;
+//	}
+//
+//	public void setAcceleration(Vector2D a) {
+//		this.a = a;
+//	}
 
 	public void setId(String id) {
 		this.id = id;
@@ -95,6 +94,7 @@ public class Body {
 	}
 
 	void move(double t) {
+		Vector2D a;
 		if(m!=0) {
 		a= f.scale(1/m);
 		}

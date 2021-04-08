@@ -13,7 +13,7 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 	public MovingTowardsFixedPoint(Vector2D direction, double acceleration) {
 		super();
 		this.direction = direction;
-		this.g = 9.81;
+		this.g = acceleration;
 	}
 
 	@Override
