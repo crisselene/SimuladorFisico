@@ -19,8 +19,8 @@ public class MassEqualStates implements StateComparator{
 					JSONObject uno = bodiesS1.getJSONObject(i);
 					JSONObject dos = bodiesS1.getJSONObject(i);
 					//que el id sea igual
-					if(dos.getString("id")==uno.getString("id") &&
-						dos.getString("m")==uno.getString("m") ) {
+					if(dos.getString("id").equals(uno.getString("id")) &&
+						dos.getString("m").equals(uno.getString("m"))) {
 							cuerpos_iguales= true;
 					}else {
 						cuerpos_iguales = false;
