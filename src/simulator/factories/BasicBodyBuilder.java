@@ -10,7 +10,6 @@ public class BasicBodyBuilder extends Builder<Body> {
 
 	public BasicBodyBuilder() {
 		super("basic", "BasicBodyBuilder");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -18,24 +17,16 @@ public class BasicBodyBuilder extends Builder<Body> {
 		double array[] = new double[2]; //recorrer los array de posicion, velocidad
 		String id = data.getString("id");
 		JSONArray ja = data.getJSONArray("p");
-		if(ja != null) {
-				for(int i = 0; i < ja.length(); i++) {
-					array[i] = ja.getDouble(i);
-			}
-		}
+		obtener_vector(array, ja);
+		
 		Vector2D p = new Vector2D(array[0], array[1]);
 		ja = data.getJSONArray("v");
-		if(ja != null) {
-			for (int i = 0; i < ja.length(); i++) {
-				array[i] = ja.getDouble(i);
-			}
-		}
+		obtener_vector(array, ja);
+		
 		Vector2D v = new Vector2D(array[0], array[1]);
 		double m = data.getDouble("m");	
 		return new Body(id, m, v, p);
 	}
-	
-	
 	
 
 	@Override

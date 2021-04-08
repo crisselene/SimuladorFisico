@@ -21,20 +21,12 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 		
 		String id = jo.getString("id");
 		
-		JSONArray ja = jo.getJSONArray("p");
-		if(ja != null) {
-			for(int i = 0; i < ja.length(); i++) {
-				array[i] = ja.getDouble(i);
-			}
-		}
+		JSONArray ja = jo.getJSONArray("p"); 
+		obtener_vector(array, ja); //metodo en el builder
 		Vector2D p = new Vector2D(array[0], array[1]);
 		
 		ja = jo.getJSONArray("v");
-		if(ja != null) {
-			for(int i = 0; i < ja.length(); i++) {
-				array[i] = ja.getDouble(i);
-			}
-		}
+		obtener_vector(array, ja);
 		Vector2D v = new Vector2D(array[0], array[1]);
 		
 		//Tal y como se ve en el enunciado... la fuerza no se le deberia pasar al constructor

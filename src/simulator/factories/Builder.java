@@ -1,5 +1,6 @@
 package simulator.factories;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,4 +39,12 @@ public abstract class Builder<T> {
 		return new JSONObject();
 	}
 	
+	//para obtener vectores en basicbodybuilder y en masslossingbodybuilder
+	protected void obtener_vector(double[] array, JSONArray ja) {
+		if(ja != null) {
+			for (int i = 0; i < ja.length(); i++) {
+				array[i] = ja.getDouble(i);
+			}
+		}
+	}
 }
