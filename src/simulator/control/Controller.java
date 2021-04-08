@@ -54,7 +54,6 @@ public class Controller {
 		
 		JSONObject currState = null;
 		JSONObject expState = null;
-		JSONArray expStateArray = null;
 		
 		
 		for (int i = 0; i < _steps; i++) {
@@ -68,7 +67,7 @@ public class Controller {
 				expState = expOutJO.getJSONArray("states").getJSONObject(i);
 				//System.out.println(expOutJO.getJSONArray("states").getJSONObject(i));
 				//System.out.println(cmp.equal(expState,currState));
-				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas", _steps); //se comparan los dos estados
+				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas",currState, expState, _steps); //se comparan los dos estados
 				
 			}
 		}

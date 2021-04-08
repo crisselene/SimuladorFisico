@@ -10,9 +10,9 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 	double g;//acerelacion fija, i.e gravedad
 	
 	
-	public MovingTowardsFixedPoint(Vector2D direction, double acceleration) {
+	public MovingTowardsFixedPoint(Vector2D centro, double acceleration) {
 		super();
-		this.centro = direction;
+		this.centro = centro;
 		this.g = acceleration;
 	}
 

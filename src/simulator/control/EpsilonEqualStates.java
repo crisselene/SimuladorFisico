@@ -19,50 +19,52 @@ public class EpsilonEqualStates implements StateComparator {
 
 	@Override
 	public boolean equal(JSONObject s1, JSONObject s2) {
-		 boolean cuerpos_iguales = false; 
-		 //mismo time
-		 if(s1.getDouble("time") == s2.getDouble("time")){
-			//listas de cuerpos de los dos json
+		boolean cuerpos_iguales = true;
+		int i = 0; // para controlar que no nos salgamos de tamanio del jsonArray
+		// mismo time
+		if (s1.getDouble("time") == s2.getDouble("time")) {
+			// listas de cuerpos de los dos json
 			JSONArray bodiesS1 = s1.getJSONArray("bodies");
 			JSONArray bodiesS2 = s2.getJSONArray("bodies");
-			//si tienen la misma longitud recorremos la lista
-			if(bodiesS1.length() == bodiesS2.length()) {
-				for (int i = 0; i <bodiesS1.length(); i++) {
+			// si tienen la misma longitud recorremos la lista
+			if (bodiesS1.length() == bodiesS2.length()) {
+				while (cuerpos_iguales && i < bodiesS1.length()) {
 					JSONObject uno = bodiesS1.getJSONObject(i);
 					JSONObject dos = bodiesS1.getJSONObject(i);
-					//que el id sea igual
-					if(dos.getString("id").equals(uno.getString("id")) &&
-						Math.abs(dos.getDouble("m")-uno.getDouble("m"))<=eps)  {
-					//vectores para comparar la posicion 
-					Vector2D p1 = generateVector2D(uno.getJSONArray("p"));
-					Vector2D p2 = generateVector2D(dos.getJSONArray("p"));
-					double distancia = p1.distanceTo(p2);
-					//vector velocidad
-					Vector2D v1 = generateVector2D(uno.getJSONArray("v")); 
-					Vector2D v2 = generateVector2D(dos.getJSONArray("v"));
-					double distanciaV = v1.distanceTo(v2);
-					//vector fuerza
-					Vector2D f1 = generateVector2D(uno.getJSONArray("f")); 
-					Vector2D f2 = generateVector2D(dos.getJSONArray("f"));
-					double distanciaF = f1.distanceTo(f2);
-					
-					if(igual_modulo(distancia)) {
-						if(igual_modulo(distanciaV)) {
-							if(igual_modulo(distanciaF)) {
-								cuerpos_iguales= true;
-							}
+					// que el id sea igual
+					if (dos.getString("id").equals(uno.getString("id"))
+							&& Math.abs(dos.getDouble("m") - uno.getDouble("m")) <= eps) {
+						// vectores para comparar la posicion
+						double distanciaP = obtener_distancia(uno, dos, "p");
+						// vector velocidad
+						double distanciaV = obtener_distancia(uno, dos, "v");
+						// vector fuerza
+						double distanciaF = obtener_distancia(uno, dos, "f");
+
+						if (!igual_modulo(distanciaP) || !igual_modulo(distanciaV) || !igual_modulo(distanciaF)) {
+							cuerpos_iguales = false;
 						}
 					}
-					}else {
-						cuerpos_iguales = false;
-						return cuerpos_iguales;
-					}		
-				}	
+					i++;
+				}
+			}else {
+				cuerpos_iguales=false;
 			}
-			return cuerpos_iguales; 
-		 }
+		}else {
+			cuerpos_iguales=false;
+		}
 		return cuerpos_iguales;
-	 }
+
+	}
+
+
+
+	private double obtener_distancia(JSONObject uno, JSONObject dos , String elemento) {
+		Vector2D p1 = generateVector2D(uno.getJSONArray(elemento));
+		Vector2D p2 = generateVector2D(dos.getJSONArray(elemento));
+		double distancia = p1.distanceTo(p2);
+		return distancia;
+	}
 	
 	//genera los vectores2D
 	private Vector2D generateVector2D(JSONArray ja) {
