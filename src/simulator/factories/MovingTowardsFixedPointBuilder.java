@@ -23,7 +23,6 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 		Vector2D c = jo.has("centro") ? obtener_c(jo, array, jo.getJSONArray("centro")) : new Vector2D(0,0);
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
-		System.out.println("holA");
 		
 		return new MovingTowardsFixedPoint(c, g);
 	}
