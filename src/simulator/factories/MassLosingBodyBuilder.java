@@ -18,7 +18,6 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 	protected Body createTheInstance(JSONObject jo) {
 		// TODO Auto-generated method stub
 		double array[] = new double[2];
-		
 		String id = jo.getString("id");
 		
 		JSONArray ja = jo.getJSONArray("p"); 
@@ -32,9 +31,9 @@ public class MassLosingBodyBuilder extends Builder<Body>{
 		//Tal y como se ve en el enunciado... la fuerza no se le deberia pasar al constructor
 		//Por eso no hago aqui el vector F
 		//Recordatiro: --> quitar fuerza del parametro del constructor
-		double m = jo.getJSONObject("data").getDouble("m");
-		double freq = jo.getJSONObject("data").getDouble("freq");
-		double factor = jo.getJSONObject("data").getDouble("factor");
+		double m = jo.getDouble("m");
+		double freq = jo.getDouble("freq");
+		double factor = jo.getDouble("factor");
 		
 		return new MassLossingBody(id, m, v, p, factor, freq);
 	}

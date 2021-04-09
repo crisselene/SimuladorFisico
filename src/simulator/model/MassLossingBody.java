@@ -42,7 +42,11 @@ public class MassLossingBody extends Body{
 	@Override
 	public JSONObject getState() {
 		JSONObject jo1 = new JSONObject();
-		jo1.put("bodyGetState", super.getState());
+		jo1.put("id", getId());
+		jo1.put("m", getMass());
+		jo1.put("v", getVelocity().asJSONArray());
+		jo1.put("f", getForce().asJSONArray());
+		jo1.put("p", getPosition().asJSONArray());
 		jo1.put("lossFactor", getLossFactor());
 		jo1.put("lossFrequency", getLossFrequency());
 		return jo1;

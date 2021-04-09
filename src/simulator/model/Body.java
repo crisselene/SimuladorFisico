@@ -103,7 +103,6 @@ public class Body {
 	
 	public JSONObject getState() {
 		JSONObject jo1 = new JSONObject();
-		
 		jo1.put("id", getId());
 		jo1.put("m", getMass());
 		jo1.put("v", getVelocity().asJSONArray());
