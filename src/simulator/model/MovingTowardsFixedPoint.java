@@ -20,9 +20,12 @@ public class MovingTowardsFixedPoint implements ForceLaws {
 	public void apply(List<Body> bs) {
 		//dada una aceleracion fija(g) y una direccion la aceleracion es (-g* direccion)
 		//la fuerza del cuerpo entonces es igual a masa por la aceleracion obtenida
+		
 		for (Body body : bs) {
-			Vector2D acelera_direction = centro.scale(-g);
+			body.addForce(centro.minus(body.getPosition()).direction().scale(g*body.getMass()));
+			/*Vector2D acelera_direction = centro.scale(-g);
 			body.f = acelera_direction.scale(body.m);
+			System.out.println(body);*/
 		}
 	}
 

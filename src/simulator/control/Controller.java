@@ -62,9 +62,8 @@ public class Controller {
 			p.print(","); //los separamos por comas para que sea legible
 			//si le hesmos pasado un expected json
 			if(expOutJO != null) {
-				
 				expState = expOutJO.getJSONArray("states").getJSONObject(i);
-				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas",currState, expState, _steps); //se comparan los dos estados
+				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas ",currState, expState, _steps); //se comparan los dos estados
 				
 			}
 			_sim.advance();

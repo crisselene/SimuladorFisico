@@ -10,7 +10,7 @@ import simulator.model.MovingTowardsFixedPoint;
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	public MovingTowardsFixedPointBuilder() {
-		super("mtcp", "MovingTowardsFixedPointBuilder");
+		super("mtfp", "MovingTowardsFixedPointBuilder");
 	}
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jo) {
@@ -18,11 +18,12 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		
 		//revisar si pasarle algo al coinstructor
 		//Hay que cambiarle el (direccion por C) en el constructor de MovingTowardsFP
-		JSONArray ja = jo.getJSONArray("c");
+		//JSONArray ja = jo.getJSONArray("c");
 		
 
-		Vector2D c = jo.has("c") ? obtener_c(jo, array, ja) : new Vector2D(0,0);
+		Vector2D c = jo.has("centro") ? obtener_c(jo, array, jo.getJSONArray("centro")) : new Vector2D(0,0);
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
+		System.out.println("holA");
 		
 		return new MovingTowardsFixedPoint(c, g);
 	}
