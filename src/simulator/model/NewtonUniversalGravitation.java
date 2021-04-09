@@ -15,13 +15,11 @@ public class NewtonUniversalGravitation implements ForceLaws {
 
 	@Override
 	public void apply(List<Body> bs) {
+		//coger el jesimo y el iesimo y compararlos y i son iguales les anadimos la fuerza
 		for (Body iesimo : bs) {
 				for (Body jesimo : bs) {
-					
 					if (!jesimo.equals(iesimo)) {
-						Vector2D l = forceNewton(iesimo, jesimo);
-						System.out.println(l.toString());
-						iesimo.addForce(l);
+						iesimo.addForce(forceNewton(iesimo, jesimo));
 					}
 			}
 		}

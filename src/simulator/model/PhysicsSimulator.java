@@ -11,7 +11,7 @@ public class PhysicsSimulator {
 	private double dt; //tiempo real de un paso.
 	private ForceLaws ley;
 	private List<Body> bs;
-	private double tiempo; //tiempo acumulado
+	private double tiempo = 0.0; //tiempo acumulado
 	
 	public PhysicsSimulator(double dt, ForceLaws ley) throws IllegalArgumentException {
 		if(dt > 0)
@@ -23,7 +23,6 @@ public class PhysicsSimulator {
 		else throw new IllegalArgumentException();
 		
 		bs = new ArrayList<Body>();
-		tiempo = 0.0;
 	}
 	
 	public void advance() {

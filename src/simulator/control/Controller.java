@@ -18,6 +18,7 @@ public class Controller {
 	Factory<Body> _bodiesFactory;
 	
 	public Controller(PhysicsSimulator _sim, Factory<Body> _bodiesFactory) {
+		super();
 		this._sim = _sim;
 		this._bodiesFactory = _bodiesFactory;
 	}
@@ -37,7 +38,6 @@ public class Controller {
 		
 		if(expOut!=null) expOutJO = new JSONObject(new JSONTokener(expOut));
 		
-		//si es null... (herencia?)******************
 		if(os == null) {
 			os = new OutputStream() {
 				@Override
@@ -64,13 +64,12 @@ public class Controller {
 			if(expOutJO != null) {
 				
 				expState = expOutJO.getJSONArray("states").getJSONObject(i);
-				//System.out.println(expOutJO.getJSONArray("states").getJSONObject(i));
-				//System.out.println(cmp.equal(expState,currState));
 				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas",currState, expState, _steps); //se comparan los dos estados
 				
 			}
 			_sim.advance();
 		}
+		currState = _sim.getState();
 		p.println(currState);//el último 
 		//si aquí te da siempre error puede ser error de coma flotante
 		//comprobar metiendo los json generados al viewer
