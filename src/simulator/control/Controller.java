@@ -18,7 +18,6 @@ public class Controller {
 	Factory<Body> _bodiesFactory;
 	
 	public Controller(PhysicsSimulator _sim, Factory<Body> _bodiesFactory) {
-		super();
 		this._sim = _sim;
 		this._bodiesFactory = _bodiesFactory;
 	}
@@ -61,15 +60,16 @@ public class Controller {
 			currState = _sim.getState();
 			p.print(currState+"\n"); //lo vamos imprimiendo en distintas líneas
 			p.print(","); //los separamos por comas para que sea legible
-			_sim.advance();
 			//si le hesmos pasado un expected json
 			if(expOutJO != null) {
+				
 				expState = expOutJO.getJSONArray("states").getJSONObject(i);
 				//System.out.println(expOutJO.getJSONArray("states").getJSONObject(i));
 				//System.out.println(cmp.equal(expState,currState));
 				if(!cmp.equal(expState,currState)) throw new DifferentStructs_Exception("Las estructuras son distintas",currState, expState, _steps); //se comparan los dos estados
 				
 			}
+			_sim.advance();
 		}
 		p.println(currState);//el último 
 		//si aquí te da siempre error puede ser error de coma flotante
