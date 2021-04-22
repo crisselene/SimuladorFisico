@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,16 +12,20 @@ import org.json.JSONTokener;
 
 import simulator.factories.Factory;
 import simulator.model.Body;
+import simulator.model.ForceLaws;
 import simulator.model.PhysicsSimulator;
+import simulator.model.SimulatorObserver;
 
 public class Controller {
 	PhysicsSimulator _sim;
 	Factory<Body> _bodiesFactory;
+	Factory<ForceLaws> _lawsFactory;
 	
-	public Controller(PhysicsSimulator _sim, Factory<Body> _bodiesFactory) {
+	public Controller(PhysicsSimulator _sim, Factory<Body> _bodiesFactory, Factory<ForceLaws> _lawsFactory) {
 		super();
 		this._sim = _sim;
 		this._bodiesFactory = _bodiesFactory;
+		this._lawsFactory = _lawsFactory;
 	}
 
 	//cojo el fichero de entrada, lo leo y proceso os cuerpos
@@ -79,7 +84,31 @@ public class Controller {
 		p.println("}");
 	}
 	
+	//posible duda para la profe
+//	public void run(int n) {
+//		
+//	}
 	
+	public void reset() {
+		_sim.reset();
+	}
+	
+	public void setDeltaTime(double dt) {
+		_sim.setDeltaTime(dt);
+	}
+	
+	public void addObserver(SimulatorObserver o) {
+		_sim.addObserver(o);
+	}
+	
+	public List<JSONObject>getForceLawsInfo(){
+		return _lawsFactory.getInfo();
+	}
+	
+	public void setForceLaws(JSONObject info) {
+		ForceLaws f = _lawsFactory.createInstance(info);
+		_sim.setForceLaws(f);
+	}
 }
 
 

@@ -297,7 +297,7 @@ public class Main {
 		//inicializar Physic simulator y controller
 		//falta obtener la ley , con factoria tenemos que obtener una sola ley para inicializa el simulador
 		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
-		Controller ctrl = new Controller(simulator, _bodyFactory);
+		Controller ctrl = new Controller(simulator, _bodyFactory, _forceLawsFactory);
 		
 		//output expected
 		InputStream expOut = null;

@@ -10,16 +10,11 @@ import simulator.model.MovingTowardsFixedPoint;
 public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 
 	public MovingTowardsFixedPointBuilder() {
-		super("mtfp", "MovingTowardsFixedPointBuilder");
+		super("mtfp", "Moving towards a fixed point");
 	}
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jo) {
 		int array[] = new int[2];
-		
-		//revisar si pasarle algo al coinstructor
-		//Hay que cambiarle el (direccion por C) en el constructor de MovingTowardsFP
-		//JSONArray ja = jo.getJSONArray("c");
-		
 
 		Vector2D c = jo.has("centro") ? obtener_c(jo, array, jo.getJSONArray("centro")) : new Vector2D(0,0);
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
@@ -43,9 +38,10 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		JSONArray c = new JSONArray();
 		c.put(0, "positionX");
 		c.put(1, "positionY");
-		jo.put("p", c);
+		//jo.put("c", c);
+		jo.put("c", "the point towards which bodies move (a json list of 2 numbers, e.g., [100.0, 50.0]");
 		
-		jo.put("g", "gravitation");
+		jo.put("g", "the length of the acceleration vector (a number) ");
 		
 		return jo;
 	}

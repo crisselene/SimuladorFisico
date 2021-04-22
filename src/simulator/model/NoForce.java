@@ -13,7 +13,7 @@ public class NoForce implements ForceLaws {
 
 	@Override
 	public String toString() {
-		return "NoForce []";
+		return "No Force ";
 	}
 	
 	

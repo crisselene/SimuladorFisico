@@ -35,7 +35,7 @@ public class NewtonUniversalGravitation implements ForceLaws {
 
 	@Override
 	public String toString() {
-		return "NewtonUniversalGravitation [G=" + G + "]";
+		return "Newton´s Universal Gravitation with G= " + G;
 	}
 	
 	
