@@ -37,6 +37,28 @@ public class Controller {
 			_sim.addBody(_bodiesFactory.createInstance(bodies.getJSONObject(i)));
 		}
 	}
+	
+	//REVISAR****************************
+	public void run(int _steps) {
+		JSONObject expOutJO = null;
+		JSONObject currState = null;
+		JSONObject expState = null;
+		
+		for (int i = 0; i < _steps; i++) {
+			//comparación de los estados iniciales
+			currState = _sim.getState();
+			//si le hesmos pasado un expected json
+			if(expOutJO != null) {
+				expState = expOutJO.getJSONArray("states").getJSONObject(i);
+			}
+			_sim.advance();
+		}
+		currState = _sim.getState();
+		//si aquí te da siempre error puede ser error de coma flotante
+		//comprobar metiendo los json generados al viewer
+				
+		
+	}
 
 	public void run(int _steps, OutputStream os ,InputStream expOut, StateComparator cmp) throws DifferentStructs_Exception {
 		JSONObject expOutJO = null;
@@ -84,10 +106,7 @@ public class Controller {
 		p.println("}");
 	}
 	
-	//posible duda para la profe
-//	public void run(int n) {
-//		
-//	}
+	
 	
 	public void reset() {
 		_sim.reset();
@@ -109,6 +128,8 @@ public class Controller {
 		ForceLaws f = _lawsFactory.createInstance(info);
 		_sim.setForceLaws(f);
 	}
+
+	
 }
 
 
