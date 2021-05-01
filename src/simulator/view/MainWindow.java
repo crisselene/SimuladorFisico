@@ -22,6 +22,7 @@ public class MainWindow extends JFrame {
 		setContentPane(mainPanel);
 		// TODO complete this method to build the GUI
 		// ..
+		this.setVisible(true);
 	}
 	// other private/protected methods
 	// ...

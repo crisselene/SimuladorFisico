@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -33,6 +35,7 @@ import simulator.model.Body;
 import simulator.model.ForceLaws;
 import simulator.model.NewtonUniversalGravitation;
 import simulator.model.PhysicsSimulator;
+import simulator.view.MainWindow;
 
 public class Main {
 
@@ -40,6 +43,7 @@ public class Main {
 	//
 	private final static Double _dtimeDefaultValue = 2500.0;
 	private final static String _forceLawsDefaultValue = "nlug";
+	private final static String _modeDefaultValue = "batch";
 	private final static String _stateComparatorDefaultValue = "epseq";
 	private final static Double _stepsDefaultValue = 150.0;//default steps
 	
@@ -50,6 +54,7 @@ public class Main {
 	private static String _inFile = null;
 	private static String _outFile = null;//outfile
 	private static String _outFileExpected = null;//outfile expected
+	private static String _mode = null; //mode
 	private static int _steps = 150;//steps, 150 default
 	private static JSONObject _forceLawsInfo = null;
 	private static JSONObject _stateComparatorInfo = null;
@@ -79,6 +84,7 @@ public class Main {
 		comparatorBuilder.add(new MassEqualStatesBuilder());
 		comparatorBuilder.add(new EpsilonEqualStatesBuilder());
 		_stateComparatorFactory = new BuilderBasedFactory<StateComparator>(comparatorBuilder);
+		
 	}
 
 	private static void parseArgs(String[] args) {
@@ -99,6 +105,7 @@ public class Main {
 			parseOutFileOption(line);// o , output
 			parseExpectedOutput(line); //eo , expected output
 			parseSteps(line); // s, steps
+			parseModeOption(line); //mode
 			
 			parseDeltaTimeOption(line);
 			parseForceLawsOption(line);
@@ -164,6 +171,15 @@ public class Main {
 						+ factoryPossibleValues(_stateComparatorFactory) + ". Default value: '"
 						+ _stateComparatorDefaultValue + "'.")
 				.build());
+		
+		// mode
+		//PREGUNTAR SI HAY QUE HACER ALGUNA FORMA PARA IMPRIMIR LOS DISTINTOS TIPOS DE MODO******
+				cmdLineOptions.addOption(Option.builder("m").longOpt("mode").hasArg()
+						.desc("Execution Mode. Possible values: ’batch’\r\n" + 
+								"(Batch mode), ’gui’ (Graphical User\r\n" + 
+								"Interface mode)."+ ". Default value: '"
+								+ _modeDefaultValue + "'.")
+						.build());
 
 		return cmdLineOptions;
 	}
@@ -185,6 +201,17 @@ public class Main {
 		return s;
 	}
 
+	private static void parseModeOption(CommandLine line) throws ParseException {
+		String m = line.getOptionValue("m"); //tipo de modo
+		if (m == null) {
+			_mode= _modeDefaultValue; //por defecto es batch
+		}else if(!m.equals("gui") && !m.equals("batch")){ //el modo es gui o batch
+			throw new ParseException("Mode is not correct");
+		}else {
+			_mode = m;
+		}
+	}
+	
 	private static void parseHelpOption(CommandLine line, Options cmdLineOptions) {
 		if (line.hasOption("h")) {
 			HelpFormatter formatter = new HelpFormatter();
@@ -285,6 +312,8 @@ public class Main {
 			throw new ParseException("Invalid state comparator: " + scmp);
 		}
 	}
+	
+	
 
 	private static void startBatchMode() throws Exception {
 		InputStream is = new FileInputStream(new File(_inFile));
@@ -311,10 +340,37 @@ public class Main {
 		
 		ctrl.run(_steps, os, expOut, stateCmp);
 	}
+	
+	private static void startGuiMode() throws Exception {
+		InputStream is = _inFile == null ?
+				System.in : new FileInputStream(new File(_inFile));
+		
+		//el fichero de salida nos lo pueden pasar o no
+		//se parsea quien es el fichero de salida, si no se crea 
+		
+		//inicializar Physic simulator y controller
+		//falta obtener la ley , con factoria tenemos que obtener una sola ley para inicializa el simulador
+		PhysicsSimulator simulator = new PhysicsSimulator(_dtime, _forceLawsFactory.createInstance(_forceLawsInfo));
+		Controller ctrl = new Controller(simulator, _bodyFactory, _forceLawsFactory);
+		
+
+		SwingUtilities.invokeAndWait(new Runnable() {
+			@Override
+			public void run() {
+			new MainWindow(ctrl); //se crea la vnetana
+			ctrl.loadBodies(is); //se cargan los cuerpos
+			}
+			});
+	}
 
 	private static void start(String[] args) throws Exception {
 		parseArgs(args);
-		startBatchMode();
+		if(_mode.equals("batch")) {
+			startBatchMode();
+		}else if(_mode.equals("gui")) {
+			startGuiMode();
+		}
+		
 	}
 
 	public static void main(String[] args) {

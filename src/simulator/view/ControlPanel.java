@@ -29,13 +29,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton btnStop;
 	private JTextField textField;
 	private JSpinner spinner;
-	private JLabel label;
-	private JLabel label_1;
-	private JLabel label_2;
-	private JLabel label_3;
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
 
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
