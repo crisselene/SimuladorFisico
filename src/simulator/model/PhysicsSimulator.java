@@ -24,6 +24,7 @@ public class PhysicsSimulator {
 		else throw new IllegalArgumentException();
 		
 		bs = new ArrayList<Body>();
+		observers = new ArrayList<SimulatorObserver>();
 	}
 	
 	public void advance() {
@@ -77,7 +78,7 @@ public class PhysicsSimulator {
 	}
 	
 	public void addObserver(SimulatorObserver o) {
-		if(observers.contains(o)) {
+		if(!observers.isEmpty() && observers.contains(o)) {
 			throw new IllegalArgumentException();
 		}
 		observers.add(o);

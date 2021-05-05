@@ -74,6 +74,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		textField = new JTextField();
 		add(textField);
 		textField.setColumns(10);
+		this.setVisible(true);
 		
 		
 		/*JFileChooser fileChoose = new JFileChooser();
