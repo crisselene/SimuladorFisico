@@ -78,7 +78,7 @@ public class PhysicsSimulator {
 	}
 	
 	public void addObserver(SimulatorObserver o) {
-		if(!observers.isEmpty() && observers.contains(o)) {
+		if(observers.contains(o)) {
 			throw new IllegalArgumentException();
 		}
 		observers.add(o);
