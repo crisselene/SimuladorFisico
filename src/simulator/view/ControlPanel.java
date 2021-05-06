@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -36,6 +37,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton exitButton;
 	private JTextField textField;
 	private JSpinner spinner;
+	private ForceLawsDialog fldialog;
 
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
@@ -131,8 +133,12 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		ActionListener LawsButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//meter lo que hace el fileButton
+				Object[] possibilities = {"Newton Laws of Universal Gravitation",
+						"Moving Towards a Fixed Point","No Force"};
+				fldialog = new ForceLawsDialog();
 				
+				/*"Select a force law and provide values for the parameters in the value column "
+				 + "(default values are used for the parameters with no value)."*/
 			}
 		};
 		btnPhysics.addActionListener(LawsButtonListener);
@@ -175,13 +181,20 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		ActionListener exitButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				//meter lo que hace el fileButton
+				quit();
 				
+			}
+
+			private void quit() {
+				int n = JOptionPane.showOptionDialog(new JFrame(),
+						 "Are sure you want to quit?", "Quit",
+						 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+						 null, null);
+						 if (n == 0) {System.exit(0); }
 			}
 		};
 		exitButton.addActionListener(exitButtonListener);
 		
-
 	}
 
 	
