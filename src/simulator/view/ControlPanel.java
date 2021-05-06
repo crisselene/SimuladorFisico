@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -84,7 +85,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		btnRun = this.createButton( 10, 10, 10, 10,"./resources/icons/run.png","run and reset all the buttons");
 		btnStop = this.createButton( 10, 10, 10, 10,"./resources/icons/stop.png","stop the execution");
 		toolBar.add(btnFileSelector);
+		toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 		toolBar.add(btnPhysics);
+		toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 		toolBar.add(btnRun);
 		toolBar.add(btnStop);
 		//JLabels
@@ -92,17 +95,26 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				JLabel lblNewLabel = new JLabel("Steps:");
 				toolBar.add(lblNewLabel);
 				
+				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+				
 				spinner = new JSpinner();
+				spinner.add(Box.createRigidArea(new Dimension(0,20)));
+				JComponent field = ((JSpinner.DefaultEditor) spinner.getEditor());
+				field.setPreferredSize( new Dimension(40, 0));
 				toolBar.add(spinner);
 				
+				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				JLabel lblNewLabel_1 = new JLabel("Delta-Time:");
 				toolBar.add(lblNewLabel_1);
+				
+				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				textField = new JTextField();
 				toolBar.add(textField);
 				textField.setColumns(10);
 				
+				toolBar.add(Box.createRigidArea(new Dimension(150, 0)));
 		//exit Button
 		exitButton = this.createButton( 10, 10, 10, 10,"./resources/icons/exit.png","exit");
 		this.add(toolBar, BorderLayout.PAGE_START);
@@ -171,7 +183,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		ActionListener stopButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				
+				_stopped = true;
 				
 			}
 		};
