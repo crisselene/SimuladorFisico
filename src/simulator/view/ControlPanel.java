@@ -134,7 +134,10 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 						_ctrl.loadBodies(new FileInputStream(file));
 					} catch (FileNotFoundException e1) {
 						// SI FALLA CARGAR LOS CUERPOS MOSTRAR DIALOG MESSAGE ERROR
-						
+						JOptionPane.showMessageDialog(new JFrame(),
+			                    "Error al cargar los cuerpos",
+			                    "Error",
+			                    JOptionPane.ERROR_MESSAGE);
 					}
 				 }
 				
