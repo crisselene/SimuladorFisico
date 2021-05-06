@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 		
 		JPanel menu = new ControlPanel(_ctrl);
 		mainPanel.add(menu);
-		BodiesTable bodies = new BodiesTable(_ctrl);
+		BodiesTable bodies = new BodiesTable(_ctrl, new BodiesTableModel(_ctrl));
 		mainPanel.add(bodies);
 		Viewer viewer = new Viewer(_ctrl);
 		mainPanel.add(viewer);

@@ -61,38 +61,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		setLayout(null);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		fileChoose =  new JFileChooser();
-		//fileChoose.setCurrentDirectory(new File("ruta absoluta"));********************
-		/*
-		btnFileSelector = new JButton("");
-		btnFileSelector.setToolTipText("Select a File");
-		btnFileSelector.setIcon(new ImageIcon("./resources/icons/open.png"));
-		add(btnFileSelector);
-		
-		
-		btnPhysics = new JButton("");
-		btnPhysics.setIcon(new ImageIcon("./resources/icons/physics.png"));
-		add(btnPhysics);
-		
-		btnRun = new JButton("");
-		btnRun.setIcon(new ImageIcon("./resources/icons/run.png"));
-		add(btnRun);
-		
-		btnStop = new JButton("");
-		btnStop.setIcon(new ImageIcon("./resources/icons/stop.png"));
-		add(btnStop);
-		
-		JLabel lblNewLabel = new JLabel("Steps:");
-		add(lblNewLabel);
-		
-		spinner = new JSpinner();
-		add(spinner);
-		
-		JLabel lblNewLabel_1 = new JLabel("Delta-Time:");
-		add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		add(textField);
-		textField.setColumns(10); */
+		fileChoose.setCurrentDirectory(new File("./resources/examples"));
 		this.setVisible(true); 
 		
 		

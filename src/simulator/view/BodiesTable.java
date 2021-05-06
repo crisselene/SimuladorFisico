@@ -14,14 +14,14 @@ public class BodiesTable extends JPanel {
 	
 	private JTable table;
 	
-	BodiesTable(Controller ctrl) {
+	BodiesTable(Controller ctrl, BodiesTableModel bodiesTableModel) {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Bodies",
 		TitledBorder.LEFT, TitledBorder.TOP));
 		
-		table = new JTable();
+		table = new JTable(bodiesTableModel);
 		add(table, BorderLayout.CENTER);
 		// TODO complete
 		}
