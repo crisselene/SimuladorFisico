@@ -69,7 +69,7 @@ public class ForceLawsDialog extends JDialog {
 		}
 		table = new LawsTable(_ctrl, new LawsTableModel(_ctrl));
 		add(table, BorderLayout.CENTER);
-		JComboBox Comboboxf = new JComboBox(comboBox);
+		JComboBox<String> Comboboxf = new JComboBox(comboBox);
 		getContentPane().add(Comboboxf);
 		//comboBox.add(jo.desc);
 		this.setVisible(true);

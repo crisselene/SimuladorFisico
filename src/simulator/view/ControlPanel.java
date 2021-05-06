@@ -2,6 +2,9 @@ package simulator.view;
 
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -10,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
 import java.awt.*;
@@ -57,35 +61,54 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 
 	private void initGUI() {
-		setSize(600, 200);//**** cambiar al ancho de la ventana la primer componente
-		setLayout(null);
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JToolBar toolBar = new JToolBar();
+		
+
+
+		//setLayout(new FlowLayout());
+		
+
 		fileChoose =  new JFileChooser();
 		fileChoose.setCurrentDirectory(new File("./resources/examples"));
 		this.setVisible(true); 
 		
 		
+		toolBar.setSize(700,50);
+		/*setSize(600, 50);//**** cambiar al ancho de la ventana la primer componente
+		this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
+		this.add(Box.createHorizontalGlue());*/
+
 		//botones
-		exitButton = this.createButton( 10, 10, 10, 10,"./resources/icons/exit.png","exit");
 		btnFileSelector = this.createButton( 10, 10, 10, 10,"./resources/icons/open.png","select a file");
 		btnPhysics = this.createButton( 10, 20, 10, 10,"./resources/icons/physics.png","select a force Law");
 		btnRun = this.createButton( 10, 10, 10, 10,"./resources/icons/run.png","run and reset all the buttons");
 		btnStop = this.createButton( 10, 10, 10, 10,"./resources/icons/stop.png","stop the execution");
-		
+		toolBar.add(btnFileSelector);
+		toolBar.add(btnPhysics);
+		toolBar.add(btnRun);
+		toolBar.add(btnStop);
 		//JLabels
 		
-		JLabel lblNewLabel = new JLabel("Steps:");
-		add(lblNewLabel);
+				JLabel lblNewLabel = new JLabel("Steps:");
+				toolBar.add(lblNewLabel);
+				
+				spinner = new JSpinner();
+				toolBar.add(spinner);
+				
+				
+				JLabel lblNewLabel_1 = new JLabel("Delta-Time:");
+				toolBar.add(lblNewLabel_1);
+				
+				textField = new JTextField();
+				toolBar.add(textField);
+				textField.setColumns(10);
+				
+		//exit Button
+		exitButton = this.createButton( 10, 10, 10, 10,"./resources/icons/exit.png","exit");
+		this.add(toolBar, BorderLayout.PAGE_START);
+		toolBar.add(exitButton);
+		toolBar.add(Box.createGlue());
 		
-		spinner = new JSpinner();
-		add(spinner);
-		
-		JLabel lblNewLabel_1 = new JLabel("Delta-Time:");
-		add(lblNewLabel_1);
-		
-		textField = new JTextField();
-		add(textField);
-		textField.setColumns(10);
 		
 		//action listener botones:
 		ActionListener FileButtonListener = new ActionListener() {
@@ -181,7 +204,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		button.setBounds(208, 5, 33, 9);
 		button.setIcon(new ImageIcon(path));
 		button.setToolTipText(description);
-		this.add(button);
+		//this.add(button);
 		return button;
 		
 	}
