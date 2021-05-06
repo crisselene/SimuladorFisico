@@ -27,6 +27,10 @@ import javax.swing.JOptionPane;
 
 
 public class ControlPanel extends JPanel implements SimulatorObserver {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// ...
 	private Controller _ctrl;
 	private boolean _stopped;
@@ -38,12 +42,16 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JTextField textField;
 	private JSpinner spinner;
 	private ForceLawsDialog fldialog;
+	//FIle chooser
+	private JFileChooser fileChoose;
+	private Container parent;
 
 	ControlPanel(Controller ctrl) {
 		_ctrl = ctrl;
 		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
+	  parent = this.getParent();
 		}
 	
 	
@@ -52,6 +60,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		setSize(600, 200);//**** cambiar al ancho de la ventana la primer componente
 		setLayout(null);
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		fileChoose =  new JFileChooser();
+		//fileChoose.setCurrentDirectory(new File("ruta absoluta"));********************
 		/*
 		btnFileSelector = new JButton("");
 		btnFileSelector.setToolTipText("Select a File");
@@ -86,7 +96,6 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		this.setVisible(true); 
 		
 		
-		JFileChooser fileChoose = new JFileChooser();
 		//botones
 		exitButton = this.createButton( 10, 10, 10, 10,"./resources/icons/exit.png","exit");
 		btnFileSelector = this.createButton( 10, 10, 10, 10,"./resources/icons/open.png","select a file");
@@ -113,11 +122,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		ActionListener FileButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				int v = fileChoose.showOpenDialog(null);
+				int v = fileChoose.showOpenDialog(parent);
 				if (v==JFileChooser.APPROVE_OPTION){ 
 					File file = fileChoose.getSelectedFile();
-					_ctrl.reset();
 					try {
+						_ctrl.reset();
 						_ctrl.loadBodies(new FileInputStream(file));
 					} catch (FileNotFoundException e1) {
 						// SI FALLA CARGAR LOS CUERPOS MOSTRAR DIALOG MESSAGE ERROR
@@ -133,9 +142,8 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		ActionListener LawsButtonListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
-				Object[] possibilities = {"Newton Laws of Universal Gravitation",
-						"Moving Towards a Fixed Point","No Force"};
-				fldialog = new ForceLawsDialog();
+				
+				fldialog = new ForceLawsDialog(_ctrl);
 				
 				/*"Select a force law and provide values for the parameters in the value column "
 				 + "(default values are used for the parameters with no value)."*/

@@ -11,7 +11,9 @@ import simulator.control.Controller;
 import javax.swing.JTable;
 
 public class BodiesTable extends JPanel {
+	
 	private JTable table;
+	
 	BodiesTable(Controller ctrl) {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createTitledBorder(
