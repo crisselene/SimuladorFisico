@@ -44,7 +44,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private JButton btnPhysics;
 	private JButton btnStop;
 	private JButton exitButton;
-	private JTextField textField;
+	private JTextField deltaTextField;
 	private JSpinner spinner;
 	private ForceLawsDialog fldialog;
 	//FIle chooser
@@ -110,9 +110,9 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				
 				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
-				textField = new JTextField();
-				toolBar.add(textField);
-				textField.setColumns(10);
+				deltaTextField = new JTextField();
+				toolBar.add(deltaTextField);
+				deltaTextField.setColumns(10);
 				
 				toolBar.add(Box.createRigidArea(new Dimension(150, 0)));
 		//exit Button
@@ -164,7 +164,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				exitButton.setEnabled(false);
 				_stopped = false;
 				try {
-				double delta = Double.parseDouble(textField.getText());
+				double delta = Double.parseDouble(deltaTextField.getText());
 				_ctrl.setDeltaTime(delta);
 				}catch (Exception e1) {
 					JOptionPane.showMessageDialog(new JFrame(),
@@ -258,13 +258,13 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDes) {
 		// TODO Auto-generated method stub
-		
+		deltaTextField.setText(Double.toString(dt));
 	}
 
 	@Override
 	public void onReset(List<Body> bodies, double time, double dt, String fLawsDesc) {
 		// TODO Auto-generated method stub
-		
+		deltaTextField.setText(Double.toString(dt));
 	}
 
 	@Override
@@ -282,7 +282,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	@Override
 	public void onDeltaTimeChanged(double dt) {
 		// TODO Auto-generated method stub
-		
+		deltaTextField.setText(Double.toString(dt));
 	}
 
 	@Override
