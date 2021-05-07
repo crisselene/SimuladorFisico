@@ -25,8 +25,8 @@ public class BodiesTable extends JPanel {
 		
 		table = new JTable(bodiesTableModel);
 	    JScrollPane scrollPane = new JScrollPane(table);
-		add(table, BorderLayout.CENTER);
-		add(scrollPane);
+		//this.add(table, BorderLayout.CENTER);
+		this.add(scrollPane);
 		// TODO complete
 		}
 }
