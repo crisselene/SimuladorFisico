@@ -50,8 +50,9 @@ public class ForceLawsDialog extends JDialog {
 		info = new JLabel();
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setAlignmentX(Component.CENTER_ALIGNMENT);
-		info.setText("<html><p style=\"width:500px\">"+"Select a force law and provide values for the parameters in the value column"
-				+ " (default values are used for the parameters with no value) "+"</p></html>");
+		info.setText( "<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");
+
+
 		getContentPane().add(info);
 		
 		

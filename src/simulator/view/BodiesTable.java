@@ -2,6 +2,7 @@ package simulator.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -22,9 +23,11 @@ public class BodiesTable extends JPanel {
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Bodies",
 		TitledBorder.LEFT, TitledBorder.TOP));
-		
+		this.setPreferredSize(new Dimension(700, 200));
 		table = new JTable(bodiesTableModel);
+		table.setGridColor(Color.WHITE);
 	    JScrollPane scrollPane = new JScrollPane(table);
+	    this.setMaximumSize(new Dimension(700,200));
 		//this.add(table, BorderLayout.CENTER);
 		this.add(scrollPane);
 		// TODO complete
