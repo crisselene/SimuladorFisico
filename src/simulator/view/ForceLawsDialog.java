@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,7 +102,28 @@ public class ForceLawsDialog extends JDialog {
 		
 		JPanel panelBotones = new JPanel();
 		panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
-		JButton btnCancel = this.createButton( 20, 5, 5, 20,"./resources/icons/exit.png","exit");
+		
+		JButton cancelButton = new JButton("Cancel");
+		ActionListener cancelListener = new ActionListener() {
+			@Override 
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		cancelButton.addActionListener(cancelListener);
+		JButton okButton = new JButton("OK");
+		ActionListener okListener = new ActionListener() {
+			@Override 
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		};
+		okButton.addActionListener(okListener);
+		panelBotones.add(cancelButton);
+		panelBotones.add(okButton);
+		
+		getContentPane().add(panelBotones);
+		
 		this.setVisible(true);
 	}
 	
@@ -133,7 +155,7 @@ private JButton createButton( int x, int y, int w, int h, String path,String des
 			
 			while(keys.hasNext()) {
 				String key = keys.next();
-				data.add(new Row(key, "", elegido.getString(key)));
+				data.add(new Row(key, null, elegido.getString(key)));
 			}
 			this.fireTableDataChanged();
 		}
@@ -170,16 +192,21 @@ private JButton createButton( int x, int y, int w, int h, String path,String des
 			
 		}
 		
-		public String[] createArrayKeys(List<JSONObject> keys, String desc, String type) {
-			int i = 0;
-			String array[] = new String[keys.size()];
-			
-			for(JSONObject j : keys) {
-				array[i] = j.getString(desc) + j.getString(type);
-				i++;
-			}
-			return array;
+		@Override
+		public boolean isCellEditable(int row, int col) {
+			return col == 1;
 		}
+		
+//		public String[] createArrayKeys(List<JSONObject> keys, String desc, String type) {
+//			int i = 0;
+//			String array[] = new String[keys.size()];
+//			
+//			for(JSONObject j : keys) {
+//				array[i] = j.getString(desc) + j.getString(type);
+//				i++;
+//			}
+//			return array;
+//		}
 	}
 	
 	private class LawsTable extends JPanel {
