@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 
@@ -68,6 +69,8 @@ public class ForceLawsDialog extends JDialog {
 		for ( JSONObject j : listForces) {
 			comboBox.addElement(j.getString("desc"));
 		}
+		JSONObject elegido = new JSONObject();
+		_ctrl.setForceLaws(elegido);
 		table = new LawsTable(_ctrl, new LawsTableModel(_ctrl));
 		add(table, BorderLayout.CENTER);
 		JComboBox<String> Comboboxf = new JComboBox(comboBox);
@@ -79,37 +82,59 @@ public class ForceLawsDialog extends JDialog {
 	private class LawsTableModel extends AbstractTableModel {
 		
 		private static final long serialVersionUID = 1L;
-		private List<ForceLaws> laws;
-
+		private List<JSONObject> keys;
+		private String columns[] = {"Key", "Value", "Descreption"};
+ 
 		LawsTableModel(Controller ctrl) {
-			laws = new ArrayList<>();
+			keys = new ArrayList<>();
 		}
 		@Override
 		public int getRowCount() {
 			// TODO Auto-generated method stub
-			return 0;
+//			if (this.data != null) return 4;
+//			else return 6;
+			
+			if (this.keys == null) return 0;
+			else return this.keys.size();
 		}
 
 		@Override
 		public int getColumnCount() {
 			// TODO Auto-generated method stub
-			return 0;
+			return columns.length;
 		}
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
+			JSONObject data = keys.get(rowIndex);
+			
+			if(columnIndex == 0) return data.getJSONObject(key)
 			return null;
+		}
+		
+		@Override
+		public String getColumnName(int col) {		
+			if (this.columns == null) return "";
+			else return this.columns[col];
+		}
+		
+		@Override
+		public void setValueAt(Object value, int row, int col) {
+			
 		}
 	}
 	
 	private class LawsTable extends JPanel {
+		
+		private static final long serialVersionUID = 1L;
+		
 		private JTable tableL;
 		LawsTable(Controller ctrl, LawsTableModel lawsTableModel) {
 			setLayout(new BorderLayout());
 		tableL = new JTable(lawsTableModel);
-		this.add(tableL, BorderLayout.CENTER);
-		tableL.setVisible(true);
+		JScrollPane scrollPane = new JScrollPane(tableL);
+		this.add(scrollPane, BorderLayout.CENTER);
+		//tableL.setVisible(true);
 		}
 	}
 }
