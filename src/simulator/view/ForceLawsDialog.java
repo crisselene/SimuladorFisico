@@ -64,13 +64,22 @@ public class ForceLawsDialog extends JDialog {
 		//getContentPane().add(table);
 		
 		//lista de fuerzas
+		JSONObject elegido = new JSONObject();
 		listForces = _ctrl.getForceLawsInfo();
 		comboBox = new DefaultComboBoxModel<>();
 		for ( JSONObject j : listForces) {
 			comboBox.addElement(j.getString("desc"));
+			//elegido = j.getJSONObject("data");
 		}
-		JSONObject elegido = new JSONObject();
-		_ctrl.setForceLaws(elegido);
+		for ( JSONObject f : listForces) {
+			if(comboBox.getSelectedItem().equals(f.getString("desc"))) {
+				elegido = f;
+			}
+		}
+		
+		System.out.println(elegido.getJSONObject("data"));
+		//System.out.println(elegido);
+		//_ctrl.setForceLaws(elegido);
 		table = new LawsTable(_ctrl, new LawsTableModel(_ctrl));
 		add(table, BorderLayout.CENTER);
 		JComboBox<String> Comboboxf = new JComboBox(comboBox);
@@ -108,7 +117,7 @@ public class ForceLawsDialog extends JDialog {
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			JSONObject data = keys.get(rowIndex);
 			
-			if(columnIndex == 0) return data.getJSONObject(key)
+			//if(columnIndex == 0) return data.getJSONObject("key");
 			return null;
 		}
 		
