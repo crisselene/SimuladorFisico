@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import java.awt.*;
@@ -98,6 +99,7 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				spinner = new JSpinner();
+				JSpinner spinner = new JSpinner(new SpinnerNumberModel(10000, 1, 15000, 100));
 				spinner.add(Box.createRigidArea(new Dimension(0,20)));
 				JComponent field = ((JSpinner.DefaultEditor) spinner.getEditor());
 				field.setPreferredSize( new Dimension(40, 0));

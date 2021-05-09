@@ -5,6 +5,8 @@ import javax.swing.JDialog;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,7 +17,9 @@ import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.SwingConstants;
@@ -48,6 +52,7 @@ public class ForceLawsDialog extends JDialog {
 	private void initGUI() {
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		this.setSize(700,500);
+		//panel informacion
 		info = new JLabel();
 		info.setHorizontalAlignment(SwingConstants.CENTER);
 		info.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,69 +61,102 @@ public class ForceLawsDialog extends JDialog {
 
 		getContentPane().add(info);
 		
+		//tabla 
 		
-		Object[] possibilities = {"Newton Laws of Universal Gravitation",
-				"Moving Towards a Fixed Point","No Force"};
+		//panel combo box
+		JPanel panelFuerzas = new JPanel();
+		
+		JLabel forceLabel = new JLabel("Force Law: ");
+		panelFuerzas.add(forceLabel);
 		
 		
-		//getContentPane().add(table);
-		
-		//lista de fuerzas
-		JSONObject elegido = new JSONObject();
 		listForces = _ctrl.getForceLawsInfo();
+		
 		comboBox = new DefaultComboBoxModel<>();
 		for ( JSONObject j : listForces) {
 			comboBox.addElement(j.getString("desc"));
-			//elegido = j.getJSONObject("data");
 		}
-		for ( JSONObject f : listForces) {
-			if(comboBox.getSelectedItem().equals(f.getString("desc"))) {
-				elegido = f;
-			}
+		LawsTableModel model = new LawsTableModel(_ctrl);
+		ActionListener comboBoxListener = new ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				//llama al modelo de la tabla para que cambie los datos
+				JSONObject elegido = new JSONObject();
+				for ( JSONObject f : listForces) {
+					if(comboBox.getSelectedItem().equals(f.getString("desc"))) {
+						elegido = f;
+					}
+				}
+				model.updateTable(elegido);
 		}
-		
-		System.out.println(elegido.getJSONObject("data"));
-		//System.out.println(elegido);
-		//_ctrl.setForceLaws(elegido);
-		table = new LawsTable(_ctrl, new LawsTableModel(_ctrl));
+		};
+		table = new LawsTable(_ctrl, model);
 		add(table, BorderLayout.CENTER);
-		JComboBox<String> Comboboxf = new JComboBox(comboBox);
-		getContentPane().add(Comboboxf);
-		//comboBox.add(jo.desc);
+		
+		JComboBox<String> comboBoxf = new JComboBox(comboBox);
+		comboBoxf.addActionListener(comboBoxListener);
+		panelFuerzas.add(comboBoxf);
+		
+		getContentPane().add(panelFuerzas);
+		
+		JPanel panelBotones = new JPanel();
+		panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.X_AXIS));
+		JButton btnCancel = this.createButton( 20, 5, 5, 20,"./resources/icons/exit.png","exit");
 		this.setVisible(true);
+	}
+	
+private JButton createButton( int x, int y, int w, int h, String path,String description){
+		
+		JButton button = new JButton();
+		button.setBounds(208, 5, 33, 9);
+		button.setIcon(new ImageIcon(path));
+		button.setToolTipText(description);
+		//this.add(button);
+		return button;
 		
 	}
+
 	private class LawsTableModel extends AbstractTableModel {
 		
 		private static final long serialVersionUID = 1L;
-		private List<JSONObject> keys;
-		private String columns[] = {"Key", "Value", "Descreption"};
- 
+		
+		//private JSONObject elegido;
+		private List<Row> data;
+		private String columns[] = {"Key", "Value", "Description"};
+		
 		LawsTableModel(Controller ctrl) {
-			keys = new ArrayList<>();
+			data = new ArrayList<>();
 		}
+		
+		private void updateTable(JSONObject elegido) {
+			Iterator<String> keys = elegido.keys();
+			
+			while(keys.hasNext()) {
+				String key = keys.next();
+				data.add(new Row(key, "", elegido.getString(key)));
+			}
+			this.fireTableDataChanged();
+		}
+		
 		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
-//			if (this.data != null) return 4;
-//			else return 6;
-			
-			if (this.keys == null) return 0;
-			else return this.keys.size();
+			if (this.data == null) return 0;
+			else return this.data.size();
 		}
 
 		@Override
 		public int getColumnCount() {
-			// TODO Auto-generated method stub
 			return columns.length;
 		}
 
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
-			JSONObject data = keys.get(rowIndex);
-			
-			//if(columnIndex == 0) return data.getJSONObject("key");
-			return null;
+			switch(columnIndex) {
+				case 0: return data.get(rowIndex).getKey();
+				case 1: return data.get(rowIndex).getValue();
+				case 2: return data.get(rowIndex).getDesc();
+			}
+			return "";
 		}
 		
 		@Override
@@ -130,6 +168,17 @@ public class ForceLawsDialog extends JDialog {
 		@Override
 		public void setValueAt(Object value, int row, int col) {
 			
+		}
+		
+		public String[] createArrayKeys(List<JSONObject> keys, String desc, String type) {
+			int i = 0;
+			String array[] = new String[keys.size()];
+			
+			for(JSONObject j : keys) {
+				array[i] = j.getString(desc) + j.getString(type);
+				i++;
+			}
+			return array;
 		}
 	}
 	
@@ -145,5 +194,20 @@ public class ForceLawsDialog extends JDialog {
 		this.add(scrollPane, BorderLayout.CENTER);
 		//tableL.setVisible(true);
 		}
+	}
+	
+	private class Row{
+		private String key;
+		private String value;
+		private String description;
+		
+		public Row(String key, String value, String description) {
+			this.key = key;
+			this.value = value;
+			this.description = description;
+		}
+		public String getKey() { return key;}
+		public String getValue() {return value;}
+		public String getDesc() {return description;}
 	}
 }
