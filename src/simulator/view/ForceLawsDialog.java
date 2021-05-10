@@ -48,6 +48,7 @@ public class ForceLawsDialog extends JDialog {
 		initGUI();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initGUI() {
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		this.setSize(700, 500);
@@ -71,34 +72,43 @@ public class ForceLawsDialog extends JDialog {
 		listForces = _ctrl.getForceLawsInfo();
 
 		comboBox = new DefaultComboBoxModel<>();
+		
 		for (JSONObject j : listForces) {
 			comboBox.addElement(j.getString("desc"));
 		}
+		
 		LawsTableModel model = new LawsTableModel(_ctrl);
-
+		table = new LawsTable(_ctrl, model);
+		add(table, BorderLayout.CENTER);
+		JComboBox<String> comboBoxf = new JComboBox<>(comboBox);
+		comboBoxf.setSelectedItem(0);
+		JSONObject data = (JSONObject) listForces.get(0).get("data");
+		model.updateTable(data);
+		
 		ActionListener comboBoxListener = new ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				// llama al modelo de la tabla para que cambie los datos
 				JSONObject elegido = new JSONObject();
 				model.resetTabla();
-				for (JSONObject f : listForces) {
-					if (comboBox.getSelectedItem().equals(f.getString("desc"))) {
+			//	for (JSONObject f : listForces) {
+				//	if (comboBox.getSelectedItem().equals(f.getString("desc"))) {
 						// System.out.println(f);
+						JSONObject f = listForces.get(comboBoxf.getSelectedIndex());
 						JSONObject data = (JSONObject) f.get("data");
 						model.updateTable(data);
 						// System.out.println(data.getString(getName()));
 
-					}
-				}
+	//				}
+		//		}
 
 			}
 		};
 
-		table = new LawsTable(_ctrl, model);
-		add(table, BorderLayout.CENTER);
+		
 
-		JComboBox<String> comboBoxf = new JComboBox(comboBox);
+		
+		
 		comboBoxf.addActionListener(comboBoxListener);
 		panelFuerzas.add(comboBoxf);
 
@@ -149,15 +159,17 @@ public class ForceLawsDialog extends JDialog {
 		}
 
 		private void updateTable(JSONObject jo) {
-
-			Iterator<String> iter = jo.keys();
+			for(String key: jo.keySet()) {
+				data.add(new Row(key, "", jo.getString(key)));
+			}
+			/*Iterator<String> iter = jo.keys();
 			while (iter.hasNext()) {
 				String key = iter.next();
 				String desc = jo.getString(key);
-				data.add(new Row(key, null, desc));
-			}
+				data.add(new Row(key, "", desc));
+			}*/
 
-			this.fireTableDataChanged();
+			this.fireTableStructureChanged();
 		}
 
 		@Override
@@ -196,7 +208,8 @@ public class ForceLawsDialog extends JDialog {
 
 		@Override
 		public void setValueAt(Object value, int row, int col) {
-			
+			Row r = data.get(row);
+			data.set(row, new Row(r.getKey(), value.toString(), r.getDesc()));
 		}
 		
 		@Override

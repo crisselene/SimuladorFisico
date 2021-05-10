@@ -127,6 +127,7 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		super.paintComponent(g);
 		// use ’gr’ to draw not ’g’ --- it gives nicer results
 		Graphics2D gr = (Graphics2D) g;
+		
 		gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		gr.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		// calculate the center
@@ -138,24 +139,26 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		gr.drawLine(_centerX, _centerY - 10, _centerX, _centerY + 10);
 		// TODO draw bodies (with vectors if _showVectors is true)
 		for(Body b : _bodies) {
-			int X = _centerX + (int) (b.getPosition().getX()/_scale);
-			int Y =  _centerY - (int) (b.getPosition().getY()/_scale);
-			gr.setColor(Color.BLUE);
-			gr.fillOval(X, Y, 5, 5);
-			gr.setColor(Color.BLACK);
-			gr.drawString(b.getId(), X , Y-5);
+						
 			if(_showVectors) {
+				//velocidad
+				Vector2D velocidadV = b.getVelocity().direction().scale(20);
+				Vector2D fuerzaV = b.getForce().direction().scale(20);
+				
 				int x = _centerX + (int) (b.getPosition().getX() / _scale);
 				int y = _centerY -  (int) (b.getPosition().getY() / _scale);
-				int x2 = x + (int) b.getVelocity().getX();
-				int y2 = y - (int) b.getVelocity().getY();
-				int x1 = x + (int) b.getForce().getX();
-				int y1 = y - (int) b.getForce().getY();
-				gr.setColor(Color.RED);
-				gr.drawLine(x, y, x1, y1);
-				gr.drawLine(x1, y1, x1-5, y1-5);
-				gr.setColor(Color.GREEN);
-				gr.drawLine(x, y, x2, y2);	
+				int x2 = x + (int) velocidadV.getX();
+				int y2 = y - (int) velocidadV.getY();
+				int x1 = x + (int) fuerzaV.getX();
+				int y1 = y - (int) fuerzaV.getY();
+				
+				drawLineWithArrow(gr, x, y, x2, y2, 5, 5, Color.GREEN, Color.GREEN);
+				drawLineWithArrow(gr, x, y, x1, y1, 5, 5,  Color.RED, Color.RED);
+				
+				gr.setColor(Color.BLUE);
+				gr.fillOval(x-5, y-5, 10, 10);
+				gr.setColor(Color.BLACK);
+				gr.drawString(b.getId(), x , y-5);
 			}
 		}
 		// TODO draw help if _showHelp is true
