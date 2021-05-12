@@ -89,7 +89,7 @@ public class ForceLawsDialog extends JDialog {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				// llama al modelo de la tabla para que cambie los datos
-				JSONObject elegido = new JSONObject();
+				//JSONObject elegido = new JSONObject();
 				model.resetTabla();
 			//	for (JSONObject f : listForces) {
 				//	if (comboBox.getSelectedItem().equals(f.getString("desc"))) {
@@ -121,7 +121,7 @@ public class ForceLawsDialog extends JDialog {
 		ActionListener cancelListener = new ActionListener() {
 			@Override 
 			public void actionPerformed(ActionEvent e) {
-				
+				dispose();
 			}
 		};
 		cancelButton.addActionListener(cancelListener);
@@ -129,7 +129,16 @@ public class ForceLawsDialog extends JDialog {
 		ActionListener okListener = new ActionListener() {
 			@Override 
 			public void actionPerformed(ActionEvent e) {
-				
+				JSONObject lawJSON = new JSONObject();
+				lawJSON.put("type", listForces.get(comboBoxf.getSelectedIndex()).getString("type"));
+				lawJSON.put("data", model.createLawData());
+				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
+				_ctrl.setForceLaws(lawJSON);
+				//System.out.println(data);
+				//_ctrl.setForceLaws(data);
+				//JSONObject f = listForces.get(comboBoxf.getSelectedIndex());
+				//System.out.println(f);
+				//_ctrl.setForceLaws(f);
 			}
 		};
 		okButton.addActionListener(okListener);
@@ -140,7 +149,7 @@ public class ForceLawsDialog extends JDialog {
 		
 		this.setVisible(true);
 	}
-
+	
 	private class LawsTableModel extends AbstractTableModel {
 
 		private static final long serialVersionUID = 1L;
@@ -205,6 +214,8 @@ public class ForceLawsDialog extends JDialog {
 			else
 				return this.columns[col];
 		}
+		
+		
 
 		@Override
 		public void setValueAt(Object value, int row, int col) {
@@ -216,17 +227,17 @@ public class ForceLawsDialog extends JDialog {
 		public boolean isCellEditable(int row, int col) {
 			return col == 1;
 		}
-
-		public String[] createArrayKeys(List<JSONObject> keys, String desc, String type) {
-			int i = 0;
-			String array[] = new String[keys.size()];
-
-			for (JSONObject j : keys) {
-				array[i] = j.getString(desc) + j.getString(type);
-				i++;
+		
+		public JSONObject createLawData() {
+			JSONObject data = new JSONObject();
+			for (int i = 0; i < getRowCount(); i++) {
+				if(getValueAt(i, 1) != null) {
+					data.put(String.valueOf(getValueAt(i, 0)), getValueAt(i, 1));
+				}
 			}
-			return array;
+			return data;
 		}
+
 	}
 
 	private class LawsTable extends JPanel {
