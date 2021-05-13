@@ -152,7 +152,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				
-				fldialog = new ForceLawsDialog(_ctrl);
+				if(fldialog == null) {
+					fldialog = new ForceLawsDialog(_ctrl);
+				}
+				else fldialog.setVisible(true); 
+				
 				
 				/*"Select a force law and provide values for the parameters in the value column "
 				 + "(default values are used for the parameters with no value)."*/

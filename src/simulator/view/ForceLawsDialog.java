@@ -121,7 +121,8 @@ public class ForceLawsDialog extends JDialog {
 		ActionListener cancelListener = new ActionListener() {
 			@Override 
 			public void actionPerformed(ActionEvent e) {
-				dispose();
+				//dispose();
+				ForceLawsDialog.this.setVisible(false);
 			}
 		};
 		cancelButton.addActionListener(cancelListener);
@@ -133,7 +134,9 @@ public class ForceLawsDialog extends JDialog {
 				lawJSON.put("type", listForces.get(comboBoxf.getSelectedIndex()).getString("type"));
 				lawJSON.put("data", model.createLawData());
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
+				System.out.println(lawJSON);
 				_ctrl.setForceLaws(lawJSON);
+				ForceLawsDialog.this.setVisible(false);
 				//System.out.println(data);
 				//_ctrl.setForceLaws(data);
 				//JSONObject f = listForces.get(comboBoxf.getSelectedIndex());
@@ -221,6 +224,7 @@ public class ForceLawsDialog extends JDialog {
 		public void setValueAt(Object value, int row, int col) {
 			Row r = data.get(row);
 			data.set(row, new Row(r.getKey(), value.toString(), r.getDesc()));
+			
 		}
 		
 		@Override
@@ -230,9 +234,17 @@ public class ForceLawsDialog extends JDialog {
 		
 		public JSONObject createLawData() {
 			JSONObject data = new JSONObject();
-			for (int i = 0; i < getRowCount(); i++) {
-				if(getValueAt(i, 1) != null) {
-					data.put(String.valueOf(getValueAt(i, 0)), getValueAt(i, 1));
+			if(getValueAt(0, 1) != "") {
+				switch(getRowCount()) {
+				case 1 : {
+					data.put(String.valueOf(getValueAt(0, 0)), Double.parseDouble((String) getValueAt(0, 1)));
+				}break;
+				case 2: {
+					JSONArray ja = new JSONArray();
+					ja = (JSONArray) getValueAt(0,1);
+					data.put(String.valueOf(getValueAt(0, 0)), ja);
+					data.put(String.valueOf(getValueAt(1, 0)), Double.parseDouble((String) getValueAt(1, 1)));
+				}break;
 				}
 			}
 			return data;
