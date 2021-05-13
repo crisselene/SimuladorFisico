@@ -222,9 +222,9 @@ public class Main {
 
 	private static void parseInFileOption(CommandLine line) throws ParseException {
 		_inFile = line.getOptionValue("i");
-		//if (_inFile == null) {
-			//throw new ParseException("In batch mode an input file of bodies is required");
-		//}
+		if (_inFile == null && _mode == "bach") {
+			throw new ParseException("In batch mode an input file of bodies is required");
+		}
 	}
 	
 	//parse outFile 
@@ -241,14 +241,16 @@ public class Main {
 		//los pasos tienen que ser un numero, por tanto hacemos lo mismo
 		//que en parseDeltaTimeOption	
 		String steps = line.getOptionValue("s", _stepsDefaultValue.toString());
-		/*
-		try {
-			_steps = Integer.parseInt(steps);
-			assert (_steps > 0);
-		} catch (Exception e) {
-			throw new ParseException("Invalid steps value: " + steps);
+		if(_mode == "bach") {
+			try {
+				_steps = Integer.parseInt(steps);
+				assert (_steps > 0);
+			} catch (Exception e) {
+				throw new ParseException("Invalid steps value: " + steps);
+			}
 		}
-		*/
+		
+		
 	}
 
 	private static void parseDeltaTimeOption(CommandLine line) throws ParseException {
@@ -360,7 +362,7 @@ public class Main {
 			@Override
 			public void run() {
 			new MainWindow(ctrl); //se crea la vnetana
-			ctrl.loadBodies(is); //se cargan los cuerposs
+			//ctrl.loadBodies(is); //se cargan los cuerposs
 			}
 			});
 	}

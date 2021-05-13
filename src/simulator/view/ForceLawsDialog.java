@@ -241,7 +241,7 @@ public class ForceLawsDialog extends JDialog {
 				if(getValueAt(i, 1) != "") {
 					switch(type) {
 					case "nlug": {
-						data.put((String) getValueAt(0, 0), Integer.parseInt(getValueAt(0,1).toString()));
+						data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
 					}break;
 					case "mtfp": {
 						
