@@ -244,15 +244,19 @@ public class ForceLawsDialog extends JDialog {
 						data.put((String) getValueAt(0, 0), Integer.parseInt(getValueAt(0,1).toString()));
 					}break;
 					case "mtfp": {
+						
+						//transformación  a dígito:
 						JSONArray array = new JSONArray();
 						String valor = getValueAt(0,1).toString();
-						char valorC = 0;
-			            for(int l = 0; l< valor.length(); l ++)
+						String valorC;
+						valor = valor.replace("[", "");
+						valor = valor.replace("]", "");
+						String[] valorJ = valor.split(",");
+			            for(int l = 0; l< valorJ.length; l ++)
 			            {
-			                if(Character.isDigit(valor.charAt(l))) {
-			                	valorC = valor.charAt(l);
-			                	array.put(Double.parseDouble(String.valueOf(valorC)));
-			                }
+			                valorC = valorJ[l];
+			                array.put(Double.parseDouble(String.valueOf(valorC)));
+			                
 
 			            }
 						
