@@ -245,9 +245,19 @@ public class ForceLawsDialog extends JDialog {
 					}break;
 					case "mtfp": {
 						JSONArray array = new JSONArray();
-						array.put(getValueAt(0,1));
+						String valor = getValueAt(0,1).toString();
+						char valorC = 0;
+			            for(int l = 0; l< valor.length(); l ++)
+			            {
+			                if(Character.isDigit(valor.charAt(l))) {
+			                	valorC = valor.charAt(l);
+			                	array.put(Double.parseDouble(String.valueOf(valorC)));
+			                }
+
+			            }
+						
 						data.put((String) getValueAt(0, 0), array);
-						data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
+						data.put((String) getValueAt(1, 0), Double.parseDouble(getValueAt(1,1).toString()));
 					}break;
 					case "ng":{
 						
@@ -258,6 +268,12 @@ public class ForceLawsDialog extends JDialog {
 					}
 					
 				}
+					
+					/*for (JSONObject jsonObject : listForces) {
+						if(jsonObject.getString("type").equals(type)){
+							data = jsonObject;
+						}
+					}*/
 			}
 			return data;
 		}
