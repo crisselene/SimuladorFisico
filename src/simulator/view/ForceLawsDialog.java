@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import simulator.control.Controller;
 import simulator.model.Body;
 import simulator.model.ForceLaws;
+import simulator.model.NewtonUniversalGravitation;
 import simulator.model.SimulatorObserver;
 
 public class ForceLawsDialog extends JDialog {
@@ -131,8 +132,10 @@ public class ForceLawsDialog extends JDialog {
 			@Override 
 			public void actionPerformed(ActionEvent e) {
 				JSONObject lawJSON = new JSONObject();
-				lawJSON.put("type", listForces.get(comboBoxf.getSelectedIndex()).getString("type"));
-				lawJSON.put("data", model.createLawData());
+				String type = (listForces.get(comboBoxf.getSelectedIndex()).getString("type"));
+				lawJSON.put("type",type);
+				lawJSON.put("data", model.createLawData(type));
+				
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
 				System.out.println(lawJSON);
 				_ctrl.setForceLaws(lawJSON);
@@ -224,7 +227,7 @@ public class ForceLawsDialog extends JDialog {
 		public void setValueAt(Object value, int row, int col) {
 			Row r = data.get(row);
 			data.set(row, new Row(r.getKey(), value.toString(), r.getDesc()));
-			
+			fireTableDataChanged();
 		}
 		
 		@Override
@@ -232,19 +235,28 @@ public class ForceLawsDialog extends JDialog {
 			return col == 1;
 		}
 		
-		public JSONObject createLawData() {
+		public JSONObject createLawData(String type) {
 			JSONObject data = new JSONObject();
-			if(getValueAt(0, 1) != "") {
-				switch(getRowCount()) {
-				case 1 : {
-					data.put(String.valueOf(getValueAt(0, 0)), Double.parseDouble((String) getValueAt(0, 1)));
-				}break;
-				case 2: {
-					JSONArray ja = new JSONArray();
-					ja = (JSONArray) getValueAt(0,1);
-					data.put(String.valueOf(getValueAt(0, 0)), ja);
-					data.put(String.valueOf(getValueAt(1, 0)), Double.parseDouble((String) getValueAt(1, 1)));
-				}break;
+			for (int i = 0; i < getRowCount(); i++) {
+				if(getValueAt(i, 1) != "") {
+					switch(type) {
+					case "nlug": {
+						data.put((String) getValueAt(0, 0), Integer.parseInt(getValueAt(0,1).toString()));
+					}break;
+					case "mtfp": {
+						JSONArray array = new JSONArray();
+						array.put(getValueAt(0,1));
+						data.put((String) getValueAt(0, 0), array);
+						data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
+					}break;
+					case "ng":{
+						
+					}
+					
+					
+						
+					}
+					
 				}
 			}
 			return data;
