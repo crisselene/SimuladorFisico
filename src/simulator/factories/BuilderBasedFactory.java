@@ -20,15 +20,11 @@ public class BuilderBasedFactory<T> implements Factory<T> {
 	public T createInstance(JSONObject info) {
 		// a ejecuta los constructores uno a uno hasta que
 		//encuentre el constructor capaz de crear el objeto correspondiente
-		/*for (int i = 0; i < builderList.size(); i++) {
+		for (int i = 0; i < builderList.size(); i++) {
 			//cuando pueda crear el objeto sera distinto de null
 			if(builderList.get(i).createInstance(info) != null) {
 				return builderList.get(i).createInstance(info);
 			}
-		}*/
-		for(Builder<T> b : builderList) {
-			T obj = b.createInstance(info);
-			if (obj != null) return obj;
 		}
 		//si no se encuentra se devuelve una excepcion
 		throw new IllegalArgumentException();
