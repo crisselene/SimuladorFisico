@@ -23,11 +23,11 @@ public class BodiesTable extends JPanel {
 		BorderFactory.createLineBorder(Color.black, 2),
 		"Bodies",
 		TitledBorder.LEFT, TitledBorder.TOP));
-		this.setPreferredSize(new Dimension(700, 200));
+		//this.setPreferredSize(new Dimension(700, 200));
 		table = new JTable(bodiesTableModel);
 		table.setGridColor(Color.WHITE);
 	    JScrollPane scrollPane = new JScrollPane(table);
-	    this.setMaximumSize(new Dimension(700,200));
+	    //this.setMaximumSize(new Dimension(700,200));
 		//this.add(table, BorderLayout.CENTER);
 		this.add(scrollPane);
 		// TODO complete

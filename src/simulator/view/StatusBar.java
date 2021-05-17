@@ -36,12 +36,15 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		this.setBorder(BorderFactory.createBevelBorder(1));
 		// TODO complete the code to build the tool bar
 		_currTime = new JLabel(timeS);
+		_currTime.setPreferredSize(new Dimension(100,20));
 		add(_currTime);
 		
 		this.add(Box.createRigidArea(new Dimension(20, 0)));
 		
 		_numOfBodies = new JLabel(bodiesS);
+		_numOfBodies.setPreferredSize(new Dimension(60,20));
 		add(_numOfBodies);
+		
 		
 		this.add(Box.createRigidArea(new Dimension(20, 0)));
 		
@@ -59,6 +62,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	public void onRegister(List<Body> bodies, double time, double dt, String fLawsDes) {
 		_currTime.setText(timeS + time);
 		_numOfBodies.setText(bodiesS + bodies.size());
+		
 		_currLaws.setText(lawsS + fLawsDes);
 		
 	}
@@ -91,6 +95,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 
 	@Override
 	public void onForceLawsChanged(String fLawsDesc) {
+		System.out.println(fLawsDesc);
 		_currLaws.setText(lawsS + fLawsDesc);
 		
 	}

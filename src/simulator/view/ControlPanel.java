@@ -12,6 +12,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu.Separator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -63,19 +64,19 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	
 
 	private void initGUI() {
+		setLayout(new BorderLayout());
 		JToolBar toolBar = new JToolBar();
 		
 
 
 		//setLayout(new FlowLayout());
 		
-
+		
 		fileChoose =  new JFileChooser();
 		fileChoose.setCurrentDirectory(new File("./resources/examples"));
 		this.setVisible(true); 
 		
 		
-		toolBar.setSize(700,50);
 		/*setSize(600, 50);//**** cambiar al ancho de la ventana la primer componente
 		this.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
 		this.add(Box.createHorizontalGlue());*/
@@ -95,33 +96,43 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		
 				JLabel lblNewLabel = new JLabel("Steps:");
 				toolBar.add(lblNewLabel);
-				
-				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+				toolBar.addSeparator();
+				//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				spinner = new JSpinner();
 				JSpinner spinner = new JSpinner(new SpinnerNumberModel(10000, 1, 15000, 100));
-				spinner.add(Box.createRigidArea(new Dimension(0,20)));
-				JComponent field = ((JSpinner.DefaultEditor) spinner.getEditor());
-				field.setPreferredSize( new Dimension(40, 0));
+				//spinner.add(Box.createRigidArea(new Dimension(0,20)));
+				toolBar.addSeparator();
+				//JComponent field = ((JSpinner.DefaultEditor) spinner.getEditor());
+				//field.setPreferredSize( new Dimension(40, 0));
+				spinner.setMaximumSize(new Dimension(70,40));
+				spinner.setMinimumSize(new Dimension(70,40));
+				spinner.setPreferredSize(new Dimension(70,40));
 				toolBar.add(spinner);
 				
-				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+				toolBar.addSeparator();
+				//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				JLabel lblNewLabel_1 = new JLabel("Delta-Time:");
 				toolBar.add(lblNewLabel_1);
 				
-				toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
-				
-				deltaTextField = new JTextField();
+				//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+				toolBar.addSeparator();
+				deltaTextField = new JTextField(5);
 				toolBar.add(deltaTextField);
+				deltaTextField.setMaximumSize(new Dimension(70,40));
+				deltaTextField.setMinimumSize(new Dimension(70,40));
+				deltaTextField.setPreferredSize(new Dimension(70,40));
 				deltaTextField.setColumns(10);
 				
-				toolBar.add(Box.createRigidArea(new Dimension(150, 0)));
+				//toolBar.add(Box.createRigidArea(new Dimension(150, 0)));
+				toolBar.add(Box.createGlue());
+				toolBar.addSeparator();
 		//exit Button
 		exitButton = this.createButton( 10, 10, 10, 10,"./resources/icons/exit.png","exit");
 		this.add(toolBar, BorderLayout.PAGE_START);
 		toolBar.add(exitButton);
-		toolBar.add(Box.createGlue());
+		
 		
 		
 		//action listener botones:
