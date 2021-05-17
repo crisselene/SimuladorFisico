@@ -138,15 +138,21 @@ public class Viewer extends JComponent implements SimulatorObserver {
 		gr.drawLine(_centerX - 10, _centerY, _centerX + 10, _centerY);
 		gr.drawLine(_centerX, _centerY - 10, _centerX, _centerY + 10);
 		// TODO draw bodies (with vectors if _showVectors is true)
+		
 		for(Body b : _bodies) {
-						
+			//bolas azules
+			int x = _centerX + (int) (b.getPosition().getX() / _scale);
+			int y = _centerY -  (int) (b.getPosition().getY() / _scale);
+			gr.setColor(Color.BLUE);
+			gr.fillOval(x-5, y-5, 10, 10);
+			gr.setColor(Color.BLACK);
+			gr.drawString(b.getId(), x , y-5);
+			
 			if(_showVectors) {
 				//velocidad
 				Vector2D velocidadV = b.getVelocity().direction().scale(20);
 				Vector2D fuerzaV = b.getForce().direction().scale(20);
 				
-				int x = _centerX + (int) (b.getPosition().getX() / _scale);
-				int y = _centerY -  (int) (b.getPosition().getY() / _scale);
 				int x2 = x + (int) velocidadV.getX();
 				int y2 = y - (int) velocidadV.getY();
 				int x1 = x + (int) fuerzaV.getX();

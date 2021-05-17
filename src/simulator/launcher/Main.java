@@ -362,7 +362,10 @@ public class Main {
 			@Override
 			public void run() {
 			new MainWindow(ctrl); //se crea la vnetana
-			//ctrl.loadBodies(is); //se cargan los cuerposs
+			if(_inFile!=null) {
+				ctrl.loadBodies(is); //se cargan los cuerposs
+			}
+			
 			}
 			});
 	}

@@ -7,6 +7,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -137,7 +138,7 @@ public class ForceLawsDialog extends JDialog {
 				lawJSON.put("data", model.createLawData(type));
 				
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
-				System.out.println(lawJSON);
+				//System.out.println(lawJSON);
 				_ctrl.setForceLaws(lawJSON);
 				ForceLawsDialog.this.setVisible(false);
 				//System.out.println(data);
@@ -239,47 +240,78 @@ public class ForceLawsDialog extends JDialog {
 			JSONObject data = new JSONObject();
 			for (int i = 0; i < getRowCount(); i++) {
 				if(getValueAt(i, 1) != "") {
-					switch(type) {
-					case "nlug": {
-						data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
-					}break;
-					case "mtfp": {
-						
-						//transformación  a dígito:
-						JSONArray array = new JSONArray();
-						String valor = getValueAt(0,1).toString();
-						String valorC;
-						valor = valor.replace("[", "");
-						valor = valor.replace("]", "");
-						String[] valorJ = valor.split(",");
-			            for(int l = 0; l< valorJ.length; l ++)
-			            {
-			                valorC = valorJ[l];
-			                array.put(Double.parseDouble(String.valueOf(valorC)));
-			                
-
-			            }
-						
-						data.put((String) getValueAt(0, 0), array);
-						data.put((String) getValueAt(1, 0), Double.parseDouble(getValueAt(1,1).toString()));
-					}break;
-					case "ng":{
-						
+					try {
+						comprobarValidez(type, data);
+					}catch(NumberFormatException n) {
+						JOptionPane.showMessageDialog(null,"Introduzca número válido");
+						break;
+					}catch (Exception e) {
+						JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
+						break;
 					}
 					
-					
-						
-					}
-					
+		
 				}
-					
-					/*for (JSONObject jsonObject : listForces) {
-						if(jsonObject.getString("type").equals(type)){
-							data = jsonObject;
-						}
-					}*/
 			}
 			return data;
+		}
+
+		private void comprobarValidez(String type, JSONObject data) throws NumberFormatException, Exception {
+			switch(type) {
+			case "nlug": {
+				if(getValueAt(0,0)!="") {
+					data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
+				}else {
+					try {
+					data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
+					}catch (NumberFormatException e) {
+						throw e;
+					}
+				}
+
+			}break;
+			case "mtfp": {
+				
+				//transformación  a dígito:
+				JSONArray array = new JSONArray();
+				String valor = getValueAt(0,1).toString();
+				String valorC;
+				//quitar los []
+				valor = valor.replace("[", "");
+				valor = valor.replace("]", "");
+				String[] valorJ = valor.split(",");
+				if(valorJ.length==2 || valor.length()==0) {
+					for(int l = 0; l< valorJ.length; l ++)
+			        {
+			            valorC = valorJ[l];
+			            if(!valorC.isEmpty()) {
+			            	try {	
+			            	 array.put(Double.parseDouble(String.valueOf(valorC)));
+			            }catch (NumberFormatException n){
+							throw n;
+						}
+			            }
+			        }
+				}else {
+					throw new Exception();	
+				}
+			    
+				
+				data.put((String) getValueAt(0, 0), array);
+				
+				String gravity = getValueAt(1,1).toString();
+				if(!gravity.isEmpty()) {
+					data.put((String) getValueAt(1, 0), Double.parseDouble(getValueAt(1,1).toString()));
+
+				}
+			}break;
+			case "ng":{
+				
+			}
+			
+			
+				
+			}
 		}
 
 	}

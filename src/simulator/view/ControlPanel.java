@@ -87,16 +87,18 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 		btnRun = this.createButton( 10, 10, 10, 10,"./resources/icons/run.png","run and reset all the buttons");
 		btnStop = this.createButton( 10, 10, 10, 10,"./resources/icons/stop.png","stop the execution");
 		toolBar.add(btnFileSelector);
-		toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+		toolBar.addSeparator();
+		//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 		toolBar.add(btnPhysics);
-		toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
+		toolBar.addSeparator();
+		//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 		toolBar.add(btnRun);
 		toolBar.add(btnStop);
 		//JLabels
-		
+		toolBar.addSeparator();
 				JLabel lblNewLabel = new JLabel("Steps:");
 				toolBar.add(lblNewLabel);
-				toolBar.addSeparator();
+				
 				//toolBar.add(Box.createRigidArea(new Dimension(5, 0)));
 				
 				spinner = new JSpinner();
