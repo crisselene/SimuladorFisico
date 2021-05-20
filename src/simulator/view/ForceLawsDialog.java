@@ -143,14 +143,9 @@ public class ForceLawsDialog extends JDialog {
 				lawJSON.put("data", model.createLawData());
 				
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
-				System.out.println(lawJSON);
+				//System.out.println(lawJSON);
 				_ctrl.setForceLaws(lawJSON);
 				ForceLawsDialog.this.setVisible(false);
-				//System.out.println(data);
-				//_ctrl.setForceLaws(data);
-				//JSONObject f = listForces.get(comboBoxf.getSelectedIndex());
-				//System.out.println(f);
-				//_ctrl.setForceLaws(f);
 			}
 		};
 		okButton.addActionListener(okListener);
