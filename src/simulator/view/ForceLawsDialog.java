@@ -280,7 +280,7 @@ public class ForceLawsDialog extends JDialog {
 							}
 						}
 						else {
-							data.put((String)getValueAt(i, 0), valueAt);
+							data.put((String)getValueAt(i, 0), Double.parseDouble(valueAt.toString()));
 						}
 					try {
 						//comprobarValidez(type, data);
