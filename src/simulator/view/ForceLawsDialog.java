@@ -143,7 +143,7 @@ public class ForceLawsDialog extends JDialog {
 				lawJSON.put("data", model.createLawData());
 				
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
-				//System.out.println(lawJSON);
+				System.out.println(lawJSON);
 				_ctrl.setForceLaws(lawJSON);
 				ForceLawsDialog.this.setVisible(false);
 				//System.out.println(data);
@@ -241,119 +241,59 @@ public class ForceLawsDialog extends JDialog {
 			return col == 1;
 		}
 		
-		public JSONObject createLawData(String type) {
-			JSONObject data = new JSONObject();
-			for (int i = 0; i < getRowCount(); i++) {
-				if(getValueAt(i, 1) != "") {
-					try {
-						comprobarValidez(type, data);
-					}catch(NumberFormatException n) {
-						JOptionPane.showMessageDialog(null,"Introduzca número válido");
-						break;
-					}catch (Exception e) {
-						JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
-						break;
-					}
-					
-		
-				}
-			}
-			return data;
-		}
-		
 		public JSONObject createLawData() {
 			// recorrer filas y crear un String {clave:valor, clave:valor...}
 			// y con esto crear el data
 			JSONObject data = new JSONObject();
 			for (int i = 0; i < getRowCount(); i++) {
 				String valueAt = (String) getValueAt(i, 1);
+				try {
 				if(valueAt != "") {
-					if(valueAt.length() > 0)
+					if(valueAt.length() > 0) {
 						if(valueAt.charAt(0) == '[') {
-							try {
-								JSONArray array = new JSONArray(valueAt);
-								data.put((String) getValueAt(i, 0), array);
+								if(comprobarNumerico(valueAt)) {
+									JSONArray array = new JSONArray(valueAt);
+									if(array.length() > 1)
+										data.put((String) getValueAt(i, 0), array);
+									else throw new NumberFormatException();
+								}
 							}
-							catch(JSONException ex) {
-								JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
-								break;
-							}
-						}
 						else {
 							data.put((String)getValueAt(i, 0), Double.parseDouble(valueAt.toString()));
 						}
-					try {
-						//comprobarValidez(type, data);
-					}catch(NumberFormatException n) {
-						JOptionPane.showMessageDialog(null,"Introduzca número válido");
-						break;
-					}catch (Exception e) {
-						JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
-						break;
 					}
-					
-		
 				}
-			}
+				}
+				catch(NumberFormatException n) {
+					JOptionPane.showMessageDialog(null,"Introduzca número válido");
+				break;
+				}catch (Exception e) {
+					JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
+				break;
+				}
+				}
 			return data;
 		}
 
-		private void comprobarValidez(String type, JSONObject data) throws NumberFormatException, Exception {
-			switch(type) {
-			case "nlug": {
-				if(getValueAt(0,0)!="") {
-					data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
-				}else {
-					try {
-					data.put((String) getValueAt(0, 0), Double.parseDouble(getValueAt(0,1).toString()));
-					}catch (NumberFormatException e) {
-						throw e;
-					}
+		private boolean comprobarNumerico(String valor) throws Exception {
+			// TODO Auto-generated method stub
+			valor = valor.replace("[", "");
+			valor = valor.replace("]", "");
+			String[] valorJ = valor.split(",");
+			if(valorJ.length==2 || valor.length()==0) {
+				for(int l = 0; l< valorJ.length; l ++) {
+		            String valorC = valorJ[l];
+		            if(!valorC.isEmpty()) {
+		            	try {	
+		            	 Double.parseDouble(String.valueOf(valorC));
+		            	 return true;
+		            	}catch (NumberFormatException n){
+		            		throw n;
+		            	}
+		            }
 				}
-
-			}break;
-			case "mtfp": {
-				
-				//transformación  a dígito:
-				JSONArray array = new JSONArray();
-				String valor = getValueAt(0,1).toString();
-				String valorC;
-				//quitar los []
-				valor = valor.replace("[", "");
-				valor = valor.replace("]", "");
-				String[] valorJ = valor.split(",");
-				if(valorJ.length==2 || valor.length()==0) {
-					for(int l = 0; l< valorJ.length; l ++)
-			        {
-			            valorC = valorJ[l];
-			            if(!valorC.isEmpty()) {
-			            	try {	
-			            	 array.put(Double.parseDouble(String.valueOf(valorC)));
-			            }catch (NumberFormatException n){
-							throw n;
-						}
-			            }
-			        }
-				}else {
-					throw new Exception();	
-				}
-			    
-				
-				data.put((String) getValueAt(0, 0), array);
-				
-				String gravity = getValueAt(1,1).toString();
-				if(!gravity.isEmpty()) {
-					data.put((String) getValueAt(1, 0), Double.parseDouble(getValueAt(1,1).toString()));
-
-				}
-			}break;
-			case "ng":{
-				
 			}
-			
-			
-				
-			}
+			throw new Exception();
 		}
 
 	}

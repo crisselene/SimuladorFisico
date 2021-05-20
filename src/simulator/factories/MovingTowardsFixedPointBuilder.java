@@ -14,7 +14,7 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 	}
 	@Override
 	protected ForceLaws createTheInstance(JSONObject jo) {
-		int array[] = new int[2];
+		double array[] = new double[2];
 
 		Vector2D c = jo.has("c") ? obtener_c(jo, array, jo.getJSONArray("c")) : new Vector2D(0,0);
 		double g = jo.has("g") ? jo.getDouble("g") : 9.81;
@@ -22,10 +22,10 @@ public class MovingTowardsFixedPointBuilder extends Builder<ForceLaws> {
 		return new MovingTowardsFixedPoint(c, g);
 	}
 	
-	private Vector2D obtener_c(JSONObject jo, int[] array, JSONArray ja) {
+	private Vector2D obtener_c(JSONObject jo, double[] array, JSONArray ja) {
 		if(ja != null) {
 			for(int i = 0; i < ja.length(); i++) {
-				array[i] = ja.getInt(i);
+				array[i] = ja.getDouble(i);
 			}	
 		}
 		return new Vector2D(array[0], array[1]);
