@@ -19,9 +19,9 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 	private JLabel _currTime; // for current time
 	private JLabel _currLaws; // for gravity laws
 	private JLabel _numOfBodies; // for number of bodies
-	private String timeS = "Time: ";
-	private String bodiesS = "Bodies: ";
-	private String lawsS = "Laws: ";
+	private static final  String timeS = "Time: ";
+	private static final String bodiesS = "Bodies: ";
+	private static final String lawsS = "Laws: ";
 
 	StatusBar(Controller ctrl) {
 		initGUI();
@@ -42,7 +42,7 @@ public class StatusBar extends JPanel implements SimulatorObserver {
 		this.add(Box.createRigidArea(new Dimension(20, 0)));
 		
 		_numOfBodies = new JLabel(bodiesS);
-		_numOfBodies.setPreferredSize(new Dimension(60,20));
+		_numOfBodies.setPreferredSize(new Dimension(80,20));
 		add(_numOfBodies);
 		
 		

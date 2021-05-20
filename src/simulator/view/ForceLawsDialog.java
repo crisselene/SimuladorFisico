@@ -17,6 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -44,10 +46,11 @@ public class ForceLawsDialog extends JDialog {
 	private JSONObject forcelawsinfo;
 	private List<JSONObject> listForces;
 
-	public ForceLawsDialog(Controller ctrl) {
-		super();
+	public ForceLawsDialog(Controller ctrl, Frame parent) {
+		super(parent, "", true);
 		_ctrl = ctrl;
 		initGUI();
+		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -242,6 +245,28 @@ public class ForceLawsDialog extends JDialog {
 				if(getValueAt(i, 1) != "") {
 					try {
 						comprobarValidez(type, data);
+					}catch(NumberFormatException n) {
+						JOptionPane.showMessageDialog(null,"Introduzca número válido");
+						break;
+					}catch (Exception e) {
+						JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
+						break;
+					}
+					
+		
+				}
+			}
+			return data;
+		}
+		
+		public JSONObject createLawData() {
+			// recorrer filas y crear un String {clave:valor, clave:valor...}
+			// y con esto crear el data
+			JSONObject data = new JSONObject();
+			for (int i = 0; i < getRowCount(); i++) {
+				if(getValueAt(i, 1) != "") {
+					try {
+						//comprobarValidez(type, data);
 					}catch(NumberFormatException n) {
 						JOptionPane.showMessageDialog(null,"Introduzca número válido");
 						break;

@@ -51,14 +51,14 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 	private ForceLawsDialog fldialog;
 	//FIle chooser
 	private JFileChooser fileChoose;
-	private Container parent;
+	private Frame parent;
 
-	ControlPanel(Controller ctrl) {
+	ControlPanel(Controller ctrl, Frame parent) {
 		_ctrl = ctrl;
 		_stopped = true;
 		initGUI();
 		_ctrl.addObserver(this);
-	  parent = this.getParent();
+		this.parent = parent;
 		}
 	
 	
@@ -145,8 +145,19 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 				if (v==JFileChooser.APPROVE_OPTION){ 
 					File file = fileChoose.getSelectedFile();
 					try {
-						_ctrl.reset();
-						_ctrl.loadBodies(new FileInputStream(file));
+						String fileAux = file.getName();
+						
+						String fe = "";
+				        int i = fileAux.lastIndexOf('.');
+				        if (i > 0) {
+				            fe = fileAux.substring(i+1);
+				        }				        
+						if(fe.equals("json")) {
+							_ctrl.reset();
+							_ctrl.loadBodies(new FileInputStream(file));
+						}
+						else throw new FileNotFoundException();
+						
 					} catch (FileNotFoundException e1) {
 						// SI FALLA CARGAR LOS CUERPOS MOSTRAR DIALOG MESSAGE ERROR
 						JOptionPane.showMessageDialog(new JFrame(),
@@ -165,8 +176,11 @@ public class ControlPanel extends JPanel implements SimulatorObserver {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
 				
-				fldialog = new ForceLawsDialog(_ctrl);
+				if(fldialog == null)
+					fldialog = new ForceLawsDialog(_ctrl, parent);
+				else fldialog.setVisible(true);
 				
+				fldialog.setModal(true);
 				/*"Select a force law and provide values for the parameters in the value column "
 				 + "(default values are used for the parameters with no value)."*/
 			}

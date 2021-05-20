@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 		//mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
 		
 		
-		JPanel menu = new ControlPanel(_ctrl);
+		JPanel menu = new ControlPanel(_ctrl, this);
 		//menu.setPreferredSize(new Dimension(800,30));
 		mainPanel.add(menu,BorderLayout.PAGE_START);
 		BodiesTable bodies = new BodiesTable(_ctrl, new BodiesTableModel(_ctrl));
@@ -46,7 +46,8 @@ public class MainWindow extends JFrame {
 		this.setMinimumSize(new Dimension(700,900));
 		// TODO complete this method to build the GUI
 		// ..
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		//this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
 	// other private/protected methods
