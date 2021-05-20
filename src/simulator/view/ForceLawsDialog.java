@@ -30,6 +30,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import simulator.control.Controller;
@@ -138,7 +139,8 @@ public class ForceLawsDialog extends JDialog {
 				JSONObject lawJSON = new JSONObject();
 				String type = (listForces.get(comboBoxf.getSelectedIndex()).getString("type"));
 				lawJSON.put("type",type);
-				lawJSON.put("data", model.createLawData(type));
+				//lawJSON.put("data", model.createLawData(type));
+				lawJSON.put("data", model.createLawData());
 				
 				lawJSON.put("desc", listForces.get(comboBoxf.getSelectedIndex()).getString("desc"));
 				//System.out.println(lawJSON);
@@ -264,7 +266,22 @@ public class ForceLawsDialog extends JDialog {
 			// y con esto crear el data
 			JSONObject data = new JSONObject();
 			for (int i = 0; i < getRowCount(); i++) {
-				if(getValueAt(i, 1) != "") {
+				String valueAt = (String) getValueAt(i, 1);
+				if(valueAt != "") {
+					if(valueAt.length() > 0)
+						if(valueAt.charAt(0) == '[') {
+							try {
+								JSONArray array = new JSONArray(valueAt);
+								data.put((String) getValueAt(i, 0), array);
+							}
+							catch(JSONException ex) {
+								JOptionPane.showMessageDialog(null,"Centro inválido. Se aplica [0.0,0.0]");
+								break;
+							}
+						}
+						else {
+							data.put((String)getValueAt(i, 0), valueAt);
+						}
 					try {
 						//comprobarValidez(type, data);
 					}catch(NumberFormatException n) {
